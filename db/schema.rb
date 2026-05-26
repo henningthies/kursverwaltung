@@ -10,15 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_26_222245) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_26_222914) do
+  create_table "categories", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.string "slug", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_categories_on_name", unique: true
+    t.index ["slug"], name: "index_categories_on_slug", unique: true
+  end
+
   create_table "courses", force: :cascade do |t|
     t.integer "capacity"
+    t.integer "category_id"
     t.datetime "created_at", null: false
     t.text "description"
     t.string "instructor"
+    t.integer "price_cents", default: 0, null: false
     t.string "status", default: "draft", null: false
     t.string "title", null: false
     t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_courses_on_category_id"
   end
 
   create_table "enrollments", force: :cascade do |t|
@@ -61,6 +73,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_26_222245) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "courses", "categories"
   add_foreign_key "enrollments", "courses"
   add_foreign_key "enrollments", "participants"
   add_foreign_key "participants", "users"

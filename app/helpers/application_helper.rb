@@ -17,4 +17,26 @@ module ApplicationHelper
     tag.span label,
       class: "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium #{classes}"
   end
+
+  # Geld als Integer-Cents → deutsche Anzeige. price_cents = 0 → "Gratis".
+  def price_display(price_cents)
+    return "Gratis" if price_cents.to_i.zero?
+
+    euros = price_cents.to_i / 100.0
+    format("%.2f €", euros).sub(".", ",")
+  end
+
+  # Verfügbarkeits-Badge für Kurs-Karten/Detail (Gratis / Fast ausgebucht / Ausgebucht).
+  def course_availability_badge(course)
+    if course.full?
+      tag.span "Ausgebucht",
+        class: "inline-flex items-center gap-1 rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-600"
+    elsif course.almost_full?
+      tag.span "Fast ausgebucht",
+        class: "inline-flex items-center gap-1 rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-medium text-amber-800"
+    elsif course.free?
+      tag.span "Gratis",
+        class: "inline-flex items-center gap-1 rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800"
+    end
+  end
 end

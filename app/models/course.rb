@@ -1,6 +1,7 @@
 class Course < ApplicationRecord
   STATUSES = %w[draft active done].freeze
 
+  belongs_to :category, optional: true
   has_many :sessions, dependent: :destroy
   has_many :enrollments, dependent: :destroy
   has_many :participants, through: :enrollments
@@ -8,8 +9,29 @@ class Course < ApplicationRecord
   validates :title, presence: true
   validates :status, inclusion: { in: STATUSES }
   validates :capacity, numericality: { greater_than: 0, allow_nil: true }
+  validates :price_cents, numericality: { greater_than_or_equal_to: 0, only_integer: true }
 
   scope :ordered, -> { order(:title) }
+  # Öffentlich sichtbar im Marketplace sind nur aktive Kurse.
+  scope :published, -> { where(status: "active") }
+  scope :in_category, ->(category) { category ? where(category: category) : all }
+
+  def free?
+    price_cents.zero?
+  end
+
+  # Restplätze, falls eine Kapazität gesetzt ist (für "Fast ausgebucht"-Badge).
+  def remaining_seats
+    return nil if capacity.nil?
+
+    [capacity - confirmed_count, 0].max
+  end
+
+  def almost_full?
+    return false if capacity.nil? || full?
+
+    remaining_seats <= [(capacity * 0.2).ceil, 3].min
+  end
 
   def confirmed_count
     enrollments.confirmed.count

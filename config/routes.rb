@@ -14,6 +14,10 @@ Rails.application.routes.draw do
   resource  :registration, only: %i[new create]
   resource  :session, only: %i[new create destroy], controller: "user_sessions"
 
+  # Öffentlicher Marketplace (Lernende). Getrennt von der Admin-Verwaltung (CoursesController).
+  get "katalog", to: "catalog#index", as: :catalog
+  get "kurse/:id", to: "catalog#show", as: :catalog_course
+
   resources :courses do
     resources :sessions,     only: %i[create destroy]
     resources :enrollments,  only: %i[create destroy]
@@ -23,6 +27,6 @@ Rails.application.routes.draw do
     end
   end
 
-  # Defines the root path route ("/")
-  root "courses#index"
+  # Wurzel ist der öffentliche Marketplace; die Admin-Verwaltung liegt unter /courses.
+  root "catalog#index"
 end

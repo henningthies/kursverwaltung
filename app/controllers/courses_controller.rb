@@ -60,6 +60,6 @@ class CoursesController < ApplicationController
     end
 
     def course_params
-      params.expect(course: %i[title status description instructor capacity])
+      params.expect(course: %i[title status description instructor capacity price_cents category_id])
     end
 end
