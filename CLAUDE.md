@@ -1,61 +1,46 @@
-# Kursverwaltung — Demo-App für den Claude-Code-Kurs
+# Kursverwaltung
 
-Eine kleine Rails-App zum Verwalten von **Kursen** und ihren **Terminen** (und später
-**Anmeldungen**). Sie ist die durchgehende Demo-App („roter Faden") für den Rheinwerk-Kurs
-*„Claude Code im Projektalltag"* — und verwaltet selbstreferenziell genau solche Kurse
-wie den, in dem sie gezeigt wird. Der Anschluss für die Teilnehmer ist sofort da:
-jeder versteht „Kurs hat Termine und Anmeldungen", ohne dass man die Domäne erklären muss.
-
-> **Hinweis zum Bau-Kontext:** Diese Datei ist der *Entwicklungs-Kontext* für den Aufbau.
-> Der Demo-Stand `t1-start` wird bewusst **ohne** CLAUDE.md committet (das „fremde Projekt"
-> zum Erkunden in Termin 1). Die CLAUDE.md der App selbst entsteht erst im Stand `t1-end`.
-> Bau-Anweisungen stehen in [`prompt.md`](prompt.md).
-
-## Zweck
-
-- Lesbar genug, um in einer Live-Demo komplett am Bildschirm überblickt zu werden.
-- Reich genug für Migration, Validierung, Assoziationen, Tests und ein echtes Feature.
-- Wächst über drei Termine als derselbe Code (Teilnehmer sehen ihn reifen).
+Kleine Rails-App zum Verwalten von **Kursen** (`Course`) und ihren **Terminen** (`Session`).
+Demo-App für den Rheinwerk-Kurs *Claude Code im Projektalltag* — der Code ist Lehrmaterial,
+also **klein und lesbar** halten. (Bau- und Kurskontext: `doc/course-build-context.md`,
+`FEATURES.md`, `prompt.md`.)
 
 ## Stack
 
-- Rails 8.1, Ruby 3.4, SQLite (Datei-DB, kein externer Server)
+- Rails 8.1, Ruby 3.4, SQLite (Datei-DB)
 - Minitest + Fixtures (kein RSpec, kein FactoryBot)
-- UI: Rails-Standard-ERB auf Scaffold-Niveau, keine CSS-Frameworks, deutsche Texte
+- Tailwind CSS (`tailwindcss-rails`), Akzentfarbe **`violet-600`** — UI-Tokens in `doc/design/ui-style-guide.md`
+- Deutsche UI-Texte; englische Modell-/Methoden-/Variablennamen
 
-## Domänenmodell
+## Domäne
 
 | Modell | Felder | Beziehungen |
 |--------|--------|-------------|
-| **Course** (Kurs) | `title`, `status` (draft/active/done), `description:text`, `instructor` | `has_many :sessions, dependent: :destroy` |
-| **Session** (Termin) | `title`, `starts_at:datetime` | `belongs_to :course` |
-| **Enrollment** (Anmeldung) | *(erst Termin 3)* `participant_name`, `email`, `status` | `belongs_to :course` |
+| `Course` | `title`, `status` (draft/active/done), `description:text`, `instructor` | `has_many :sessions, dependent: :destroy`; `scope :ordered` (nach `title`) |
+| `Session` | `title`, `starts_at:datetime` | `belongs_to :course`; `scope :ordered` (nach `starts_at`) |
+
+CRUD für Courses (`index`/`show`/`new`/`edit`); Termine werden auf der Course-Show-Seite
+angelegt und gelöscht. Status als Select über `Course::STATUSES`.
 
 ## Konventionen (verbindlich — vanilla Rails / 37signals)
 
-- **Schlanke Controller**, sieben Standard-Actions, keine Service-Objekte, keine
-  zusätzlichen Abstraktions-Gems. Keine Architektur, die hier sonst nirgends vorkommt.
-- **Enum-artige Felder über das `STATUSES`-Muster** — *nicht* über `enum`:
+- **Schlanke Controller**, sieben Standard-Actions, **keine** Service-Objekte, keine
+  Abstraktions-Gems. Logik lebt in den Modellen, nicht in Controllern.
+- **Status-Felder über das `STATUSES`-Muster** (Konstante + `inclusion`-Validierung), **nicht** `enum`:
   ```ruby
-  class Course < ApplicationRecord
-    STATUSES = %w[draft active done].freeze
-    validates :status, inclusion: { in: STATUSES }
-  end
+  STATUSES = %w[draft active done].freeze
+  validates :status, inclusion: { in: STATUSES }
   ```
-  In der View per `form.select :status, Course::STATUSES`. Neue enum-artige Felder genau so.
+  In Views: `form.select :status, Course::STATUSES`. Neue Status-Felder genau so.
 - **Strong Parameters mit `params.expect(...)`** (Rails-8-Stil), nicht `require.permit`.
-- **Deutsche UI-Texte** (Labels, Flash-Notices). Modell-/Methoden-/Variablennamen **englisch**.
-- **Minitest + Fixtures**, neue Logik/Actions bekommen Tests. `bin/rails test` muss grün sein.
-- **Seeds idempotent** (`Course.destroy_all` vorab) → reproduzierbarer Demo-Startzustand.
+- **Deutsche Labels und Flash-Notices**; englische Bezeichner im Code.
+- **Minitest + Fixtures**; neue Logik/Actions bekommen Tests mit präzisen Assertions.
+- **Seeds idempotent** (`destroy_all` vorab) → reproduzierbarer Startzustand.
+- **Views folgen `doc/design/ui-style-guide.md`**: violet-Akzent, runde Karten, Pill-Badges,
+  Status-Badges zentral im Helper, nur Tailwind-Skalen (kein blauer Akzent, keine eigenen Hex-Werte).
 
-## So wächst die App über die Termine (Progressions-Tags)
+## Ausführen & prüfen
 
-| Tag | Stand | Inhalt |
-|-----|-------|--------|
-| `t1-start` | roh, **ohne** CLAUDE.md | Course + Session, Seeds, Tests |
-| `t1-end` | nach T1 | + erste CLAUDE.md, kleine Änderung (Termin-Zähler in der Übersicht) |
-| `t2-end` | nach T2 | + `review`-Skill, MCP-Anbindung, Secrets-Hook, geschärfte CLAUDE.md |
-| `t3-feature` | nach T3 | + **Enrollment**-Feature (Anmeldung mit Kapazität/Warteliste) bis zum PR |
-
-Demo-Varianten/Fallbacks als Branches: `demo/t<N>-<nr>-<slug>`.
-Reset überall: `git checkout <tag/branch> && bin/rails db:reset`.
+- Tests: `bin/rails test` (muss grün sein)
+- DB zurücksetzen: `bin/rails db:reset` (läuft sauber durch; oder `bin/rails demo:reset`)
+- Server: `bin/dev` (mit Tailwind-Watch) oder `bin/rails server` — `GET /` liefert 200

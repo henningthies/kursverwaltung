@@ -11,6 +11,7 @@
             <h2 class="text-lg font-semibold text-gray-900"><%= course.title %></h2>
             <p class="text-sm text-gray-500 mt-1">
               <%= course.instructor.presence || "Ohne Leitung" %>
+              · <%= pluralize(course.sessions.size, "Termin", plural: "Termine") %>
             </p>
           </div>
           <%= course_status_badge(course) %>
