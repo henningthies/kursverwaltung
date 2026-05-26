@@ -1,0 +1,77 @@
+<% content_for :title, "Verwaltung — Kurse & Anmeldungen" %>
+
+<div class="flex items-center justify-between mb-8">
+  <div>
+    <p class="text-xs font-semibold uppercase tracking-wide text-violet-700 mb-2">Verwaltung</p>
+    <h1 class="text-3xl font-extrabold tracking-tight text-gray-900">Kurse & Anmeldungen</h1>
+  </div>
+  <%= link_to "Neuer Kurs", new_course_path,
+        class: "rounded-lg bg-violet-600 px-4 py-2.5 text-white font-medium hover:bg-violet-700" %>
+</div>
+
+<div class="grid gap-4 sm:grid-cols-4 mb-10">
+  <div class="rounded-xl border border-gray-200 bg-white p-5">
+    <p class="text-sm text-gray-500">Aktive Kurse</p>
+    <p class="mt-1 text-3xl font-extrabold tracking-tight"><%= @active_courses_count %></p>
+  </div>
+  <div class="rounded-xl border border-gray-200 bg-white p-5">
+    <p class="text-sm text-gray-500">Bestätigte Anmeldungen</p>
+    <p class="mt-1 text-3xl font-extrabold tracking-tight"><%= @confirmed_count %></p>
+  </div>
+  <div class="rounded-xl border border-gray-200 bg-white p-5">
+    <p class="text-sm text-gray-500">Auf Warteliste</p>
+    <p class="mt-1 text-3xl font-extrabold tracking-tight"><%= @waitlisted_count %></p>
+  </div>
+  <div class="rounded-xl border border-gray-200 bg-white p-5">
+    <p class="text-sm text-gray-500">Umsatz (bezahlt)</p>
+    <p class="mt-1 text-3xl font-extrabold tracking-tight"><%= price_display(@revenue_cents) %></p>
+  </div>
+</div>
+
+<div class="rounded-xl border border-gray-200 bg-white overflow-hidden">
+  <div class="px-5 py-4 border-b border-gray-100">
+    <h2 class="font-semibold text-gray-900">Alle Kurse</h2>
+  </div>
+  <table class="w-full text-sm">
+    <thead class="text-left text-xs uppercase tracking-wide text-gray-500 bg-gray-50">
+      <tr>
+        <th class="px-5 py-3 font-semibold">Kurs</th>
+        <th class="px-5 py-3 font-semibold">Status</th>
+        <th class="px-5 py-3 font-semibold">Preis</th>
+        <th class="px-5 py-3 font-semibold">Anmeldungen</th>
+        <th class="px-5 py-3 font-semibold">Termine</th>
+        <th class="px-5 py-3 font-semibold text-right">Aktion</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-100">
+      <%# BEWUSSTE DEMO-SCHWACHSTELLE (T3 Performance): Zähler je Zeile ohne includes/
+          counter_cache → N+1. NICHT vorab fixen. %>
+      <% @courses.each do |course| %>
+        <tr class="hover:bg-gray-50">
+          <td class="px-5 py-4">
+            <p class="font-medium text-gray-900"><%= course.title %></p>
+            <p class="text-xs text-gray-500"><%= course.instructor.presence || "Ohne Leitung" %></p>
+          </td>
+          <td class="px-5 py-4"><%= course_status_badge(course) %></td>
+          <td class="px-5 py-4 text-gray-700"><%= price_display(course.price_cents) %></td>
+          <td class="px-5 py-4 text-gray-700">
+            <%= course.confirmed_count %> / <%= course.capacity.presence || "unbegrenzt" %>
+            <% waitlisted = course.enrollments.waitlisted.count %>
+            <% if waitlisted.positive? %>
+              <span class="text-amber-700">· <%= waitlisted %> Warteliste</span>
+            <% end %>
+          </td>
+          <td class="px-5 py-4 text-gray-700"><%= course.sessions.count %></td>
+          <td class="px-5 py-4 text-right">
+            <%= link_to "Bearbeiten", course_path(course), class: "text-violet-700 font-medium hover:underline" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<p class="mt-4 text-xs text-gray-400">
+  Diese Ansicht baut auf dem bestehenden Course/Session/Enrollment-CRUD auf — neu eingekleidet,
+  plus Preis-Spalte und Umsatz-KPI.
+</p>

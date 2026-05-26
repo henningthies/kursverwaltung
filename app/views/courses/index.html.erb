@@ -1,6 +1,12 @@
 <% content_for :title, "Kurse" %>
 
-<h1 class="text-2xl font-bold mb-6">Kurse</h1>
+<div class="flex items-center justify-between mb-6">
+  <h1 class="text-2xl font-bold">Kurse</h1>
+  <div class="flex items-center gap-3">
+    <%= link_to "Dashboard", admin_dashboard_path, class: "text-sm font-medium text-gray-600 hover:text-gray-900" %>
+    <%= link_to "Neuer Kurs", new_course_path, class: "rounded-lg bg-violet-600 px-3 py-2 text-sm font-medium text-white hover:bg-violet-700" %>
+  </div>
+</div>
 
 <% if @courses.any? %>
   <div class="space-y-3">
@@ -14,6 +20,7 @@
                 counter_cache). NICHT vorab fixen — das Finden & Beheben ist die Live-Demo. %>
             <p class="text-sm text-gray-500 mt-1">
               <%= course.instructor.presence || "Ohne Leitung" %>
+              · <%= price_display(course.price_cents) %>
               · <%= pluralize(course.enrollments.confirmed.count, "Anmeldung", plural: "Anmeldungen") %>
               · <%= pluralize(course.sessions.count, "Termin", plural: "Termine") %>
             </p>

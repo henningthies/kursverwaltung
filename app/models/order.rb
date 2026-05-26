@@ -11,6 +11,11 @@ class Order < ApplicationRecord
 
   scope :paid, -> { where(status: "paid") }
 
+  # Live-Aggregation des Umsatzes über bezahlte Bestellungen (kein counter_cache).
+  def self.revenue_cents
+    paid.sum(:total_cents)
+  end
+
   def paid?
     status == "paid"
   end

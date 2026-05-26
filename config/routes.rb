@@ -32,6 +32,11 @@ Rails.application.routes.draw do
   # "Meine Kurse" der eingeloggten Lernenden.
   get "meine-kurse", to: "my_courses#index", as: :my_courses
 
+  # Verwaltung (nur admin): KPI-Dashboard.
+  namespace :admin do
+    get "dashboard", to: "dashboard#index"
+  end
+
   resources :courses do
     resources :sessions,     only: %i[create destroy]
     resources :enrollments,  only: %i[create destroy]

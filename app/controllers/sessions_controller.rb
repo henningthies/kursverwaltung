@@ -1,6 +1,7 @@
 class SessionsController < ApplicationController
   before_action :require_admin
   before_action :set_course
+  layout "admin"
 
   def create
     @session = @course.sessions.new(session_params)
