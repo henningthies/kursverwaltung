@@ -13,6 +13,7 @@ class CheckoutsController < ApplicationController
     order = current_user.orders.build(status: "pending")
     order.add_courses(cart.courses)
     order.save!
+    session[:last_order_id] = order.id
 
     if order.total_cents.zero?
       order.mark_paid!
@@ -34,7 +35,7 @@ class CheckoutsController < ApplicationController
 
   def success
     clear_cart
-    @order = current_user.orders.order(created_at: :desc).first
+    @order = current_user.orders.find_by(id: session.delete(:last_order_id))
   end
 
   def cancel

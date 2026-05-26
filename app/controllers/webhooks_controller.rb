@@ -20,8 +20,9 @@ class WebhooksController < ApplicationController
 
   private
     def fulfill(checkout_session)
-      order = Order.find_by(stripe_session_id: checkout_session["id"]) ||
-              Order.find_by(id: checkout_session["client_reference_id"])
+      # stripe_session_id wird vor dem Redirect zu Stripe gesetzt, daher matcht dieser
+      # Lookup zuverlässig. Kein Fallback über extern kontrollierte Felder (client_reference_id).
+      order = Order.find_by(stripe_session_id: checkout_session["id"])
       order&.mark_paid!
     end
 end

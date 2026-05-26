@@ -22,7 +22,7 @@
     </div>
   </div>
 
-  <% if current_user.enrollments.empty? %>
+  <% if @enrollments.empty? %>
     <div class="rounded-xl border border-gray-200 bg-white p-10 text-center">
       <p class="text-gray-600">Du hast noch keine Kurse gebucht.</p>
       <%= link_to "Kurse entdecken", root_path,

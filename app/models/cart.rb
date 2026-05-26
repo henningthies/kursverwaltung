@@ -8,14 +8,18 @@ class Cart
   attr_reader :course_ids
 
   def courses
-    @courses ||= Course.where(id: course_ids).to_a
+    # Nur veröffentlichte (aktive) Kurse sind kaufbar — ein manuell hinzugefügter
+    # Entwurf/abgeschlossener Kurs landet damit nicht im Checkout.
+    @courses ||= Course.published.where(id: course_ids).to_a
   end
 
   def add(course_id)
+    @courses = nil
     @course_ids = (course_ids + [course_id.to_i]).uniq
   end
 
   def remove(course_id)
+    @courses = nil
     @course_ids = course_ids - [course_id.to_i]
   end
 

@@ -35,4 +35,12 @@ class CartTest < ActiveSupport::TestCase
     cart = Cart.new(nil)
     assert cart.empty?
   end
+
+  test "excludes non-published courses (draft/done) from the cart" do
+    # rails_performance ist draft, git_for_teams ist done — beide dürfen nicht kaufbar sein.
+    cart = Cart.new([courses(:claude_code).id, courses(:rails_performance).id, courses(:git_for_teams).id])
+    assert_equal [courses(:claude_code)], cart.courses
+    assert_equal 1, cart.size
+    assert_equal courses(:claude_code).price_cents, cart.total_cents
+  end
 end

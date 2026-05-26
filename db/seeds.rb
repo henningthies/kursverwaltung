@@ -1,4 +1,6 @@
 # Idempotent: vor dem Säen alles entfernen, damit der Demo-Startzustand reproduzierbar ist.
+# Reihenfolge: Kinder vor Eltern. Order.destroy_all räumt OrderItems via dependent: :destroy.
+Order.destroy_all
 Enrollment.destroy_all
 Participant.destroy_all
 Course.destroy_all
