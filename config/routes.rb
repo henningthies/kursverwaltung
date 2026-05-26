@@ -29,6 +29,9 @@ Rails.application.routes.draw do
   end
   post "webhooks/stripe", to: "webhooks#stripe"
 
+  # "Meine Kurse" der eingeloggten Lernenden.
+  get "meine-kurse", to: "my_courses#index", as: :my_courses
+
   resources :courses do
     resources :sessions,     only: %i[create destroy]
     resources :enrollments,  only: %i[create destroy]

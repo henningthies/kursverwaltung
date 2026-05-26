@@ -8,7 +8,7 @@
     <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-gray-600">
       <%= link_to "Kurse", root_path, class: "text-violet-700" %>
       <% if logged_in? %>
-        <%= link_to "Meine Kurse", root_path, class: "hover:text-gray-900" %>
+        <%= link_to "Meine Kurse", my_courses_path, class: "hover:text-gray-900" %>
       <% end %>
       <% if logged_in? && current_user.admin? %>
         <%= link_to "Verwaltung", courses_path, class: "hover:text-gray-900" %>

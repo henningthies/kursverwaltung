@@ -26,5 +26,25 @@ class Order < ApplicationRecord
     return if paid?
 
     update!(status: "paid", paid_at: Time.current)
+    book_enrollments!
   end
+
+  private
+    # Bucht den User nach bestätigter Zahlung über die VORHANDENE Course#enroll-Logik
+    # (inkl. Kapazität/Warteliste). Bei vollem Kurs landet die Buchung auf der Warteliste
+    # (kein Auto-Refund). Idempotent: bereits aktive Anmeldungen werden übersprungen.
+    def book_enrollments!
+      participant = Participant.find_or_create_by!(email: user.email) do |p|
+        p.name = user.name
+        p.user = user
+      end
+      participant.update!(user: user) if participant.user_id.nil?
+
+      courses.each do |course|
+        existing = course.enrollments.find_by(participant: participant)
+        next if existing && existing.status != "cancelled"
+
+        course.enroll(participant)
+      end
+    end
 end

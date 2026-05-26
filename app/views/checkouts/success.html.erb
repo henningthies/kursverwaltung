@@ -27,6 +27,10 @@
     </div>
   <% end %>
 
-  <%= link_to "Zurück zu den Kursen", root_path,
-        class: "mt-8 inline-block rounded-lg bg-violet-600 px-5 py-2.5 text-white font-medium hover:bg-violet-700" %>
+  <div class="mt-8 flex items-center justify-center gap-3">
+    <%= link_to "Zu meinen Kursen", my_courses_path,
+          class: "inline-block rounded-lg bg-violet-600 px-5 py-2.5 text-white font-medium hover:bg-violet-700" %>
+    <%= link_to "Weiter stöbern", root_path,
+          class: "inline-block rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-gray-700 font-medium hover:bg-gray-50" %>
+  </div>
 </main>
