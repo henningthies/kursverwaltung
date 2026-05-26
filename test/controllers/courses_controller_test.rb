@@ -18,6 +18,21 @@ class CoursesControllerTest < ActionDispatch::IntegrationTest
     assert_select "p", text: /2 Termine/
   end
 
+  test "index shows the confirmed enrollment count per course" do
+    get courses_url
+    assert_response :success
+    # claude_code hat eine bestätigte Anmeldung (alice) via Fixture.
+    assert_select "p", text: /1 Anmeldung/
+  end
+
+  test "participants export returns name and email as json (deliberate PII demo)" do
+    get participants_course_url(@course, format: :json)
+    assert_response :success
+    people = JSON.parse(response.body)
+    assert people.any?, "erwartet mindestens einen Teilnehmer"
+    assert people.all? { |p| p.key?("name") && p.key?("email") }
+  end
+
   test "show displays a course with its sessions" do
     get course_url(@course)
     assert_response :success
