@@ -1,4 +1,6 @@
 # Idempotent: vor dem Säen alles entfernen, damit der Demo-Startzustand reproduzierbar ist.
+Enrollment.destroy_all
+Participant.destroy_all
 Course.destroy_all
 
 claude = Course.create!(
@@ -18,6 +20,7 @@ performance = Course.create!(
   title: "Rails Performance",
   status: "draft",
   instructor: "Henning Thies",
+  capacity: 2,
   description: "N+1-Queries finden, Caching-Strategien und Datenbank-Indizes — " \
                "messen statt raten."
 )
@@ -44,4 +47,19 @@ Course.create!(
   description: "Joins, Aggregationen und Fensterfunktionen anhand realer Beispiele."
 )
 
-puts "Seeds: #{Course.count} Kurse, #{Session.count} Termine angelegt."
+# Teilnehmer anlegen
+alice = Participant.create!(name: "Alice Müller",   email: "alice@example.com")
+bob   = Participant.create!(name: "Bob Schmidt",    email: "bob@example.com")
+carol = Participant.create!(name: "Carol Weber",    email: "carol@example.com")
+dave  = Participant.create!(name: "Dave Fischer",   email: "dave@example.com")
+
+# Rails Performance: Kapazität 2 — voll bestätigt + 1 auf Warteliste (Demo-Startzustand)
+performance.enroll(alice)   # confirmed (1/2)
+performance.enroll(bob)     # confirmed (2/2 — jetzt voll)
+performance.enroll(carol)   # waitlisted (Kurs voll)
+
+# Claude Code: keine Kapazitätsgrenze — Dave ist einfach dabei
+claude.enroll(dave)         # confirmed (unbegrenzt)
+
+puts "Seeds: #{Course.count} Kurse, #{Session.count} Termine, " \
+     "#{Participant.count} Teilnehmer, #{Enrollment.count} Anmeldungen angelegt."

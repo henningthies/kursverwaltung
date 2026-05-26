@@ -1,0 +1,9 @@
+alice_claude_code:
+  course: claude_code
+  participant: alice
+  status: confirmed
+
+bob_claude_code:
+  course: claude_code
+  participant: bob
+  status: waitlisted

@@ -8,6 +8,9 @@ class CoursesController < ApplicationController
   def show
     @sessions = @course.sessions.ordered
     @session = @course.sessions.new
+    @confirmed_enrollments  = @course.enrollments.confirmed.oldest_first.includes(:participant)
+    @waitlisted_enrollments = @course.enrollments.waitlisted.oldest_first.includes(:participant)
+    @enrollment_params = {}
   end
 
   def new

@@ -3,15 +3,18 @@ claude_code:
   status: active
   instructor: Henning Thies
   description: KI-Agenten im Entwicklungs-Workflow.
+  capacity: ~
 
 rails_performance:
   title: Rails Performance
   status: draft
   instructor: Henning Thies
   description: N+1-Queries und Caching.
+  capacity: 2
 
 git_for_teams:
   title: Git für Teams
   status: done
   instructor: Maria Berg
   description: Branching und Konfliktlösung.
+  capacity: ~
