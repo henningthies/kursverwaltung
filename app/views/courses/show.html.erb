@@ -17,7 +17,7 @@
 </div>
 
 <% if @course.description.present? %>
-  <div class="rounded-lg border border-gray-200 bg-white p-6 mb-8">
+  <div class="rounded-xl border border-gray-200 bg-white p-6 mb-8">
     <p class="whitespace-pre-line text-gray-700"><%= @course.description %></p>
   </div>
 <% end %>
@@ -26,7 +26,7 @@
   <h2 class="text-lg font-semibold mb-4">Termine</h2>
 
   <% if @sessions.any? %>
-    <ul class="divide-y divide-gray-200 rounded-lg border border-gray-200 bg-white mb-6">
+    <ul class="divide-y divide-gray-200 rounded-xl border border-gray-200 bg-white mb-6">
       <% @sessions.each do |session| %>
         <li class="flex items-center justify-between px-4 py-3">
           <div>
@@ -45,7 +45,7 @@
     <p class="text-gray-500 mb-6">Noch keine Termine.</p>
   <% end %>
 
-  <div class="rounded-lg border border-gray-200 bg-white p-6">
+  <div class="rounded-xl border border-gray-200 bg-white p-6">
     <h3 class="font-medium mb-4">Termin hinzufügen</h3>
     <%= form_with model: [@course, @session], class: "space-y-4" do |form| %>
       <% if @session.errors.any? %>
@@ -68,7 +68,7 @@
         <%= form.datetime_local_field :starts_at, class: "block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-gray-500 focus:ring-gray-500" %>
       </div>
 
-      <%= form.submit "Termin hinzufügen", class: "rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700 cursor-pointer" %>
+      <%= form.submit "Termin hinzufügen", class: "rounded-lg bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 cursor-pointer" %>
     <% end %>
   </div>
 </section>

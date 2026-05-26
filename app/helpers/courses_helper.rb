@@ -8,7 +8,7 @@ module CoursesHelper
   STATUS_CLASSES = {
     "draft"  => "bg-gray-100 text-gray-700",
     "active" => "bg-green-100 text-green-800",
-    "done"   => "bg-blue-100 text-blue-800"
+    "done"   => "bg-violet-100 text-violet-800"
   }.freeze
 
   def course_status_label(course)
