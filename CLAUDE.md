@@ -39,6 +39,19 @@ angelegt und gelöscht. Status als Select über `Course::STATUSES`.
 - **Views folgen `doc/design/ui-style-guide.md`**: violet-Akzent, runde Karten, Pill-Badges,
   Status-Badges zentral im Helper, nur Tailwind-Skalen (kein blauer Akzent, keine eigenen Hex-Werte).
 
+## Werkzeuge (`.claude/`)
+
+- **`review`-Skill** — „review den Diff / PR / Branch" prüft Änderungen gegen die
+  Konventionen oben und liefert projektspezifische Befunde. Vor größeren Commits nutzen.
+- **Software-Factory** (`feature-plan` → `feature-build` → `feature-review`) baut Features
+  aus `FEATURES.md` schrittweise: Plan + ADR, dann TDD-Code + Produkt-Doc, dann Review.
+  Details: `.claude/factory/README.md`.
+- **Playwright-MCP** (`.mcp.json`) — treibt die laufende App im Browser für visuelle Checks.
+  App dafür starten (`bin/dev`), Standard-URL `http://localhost:3000`.
+- **Secrets-Hook** (`.claude/settings.json` + `.claude/hooks/block-secrets.sh`) — blockt
+  Tool-Zugriff auf `.env`, `config/master.key`, `config/credentials*`, `.kamal/secrets`.
+  Echte Credentials gehören nie in getrackte Dateien.
+
 ## Ausführen & prüfen
 
 - Tests: `bin/rails test` (muss grün sein)
