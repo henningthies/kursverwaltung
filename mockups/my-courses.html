@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Meine Kurse · Kursverwaltung</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style> body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; } </style>
+</head>
+<body class="bg-gray-50 text-gray-900 min-h-screen antialiased">
+
+  <!-- ===== Header ===== -->
+  <header class="sticky top-0 z-20 bg-white/90 backdrop-blur border-b border-gray-200">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="marketplace.html" class="flex items-center gap-2">
+        <span class="grid place-items-center w-8 h-8 rounded-lg bg-violet-600 text-white font-bold">K</span>
+        <span class="text-lg font-bold tracking-tight">Kursverwaltung</span>
+      </a>
+      <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-gray-600">
+        <a href="marketplace.html" class="hover:text-gray-900">Kurse</a>
+        <a href="my-courses.html" class="text-violet-700">Meine Kurse</a>
+      </nav>
+      <div class="flex items-center gap-3">
+        <span class="grid place-items-center w-9 h-9 rounded-full bg-violet-100 text-violet-700 text-sm font-semibold">MT</span>
+        <a href="auth.html" class="text-sm font-medium text-gray-500 hover:text-gray-900">Abmelden</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-6 py-10">
+
+    <!-- Greeting -->
+    <div class="mb-8">
+      <p class="text-xs font-semibold uppercase tracking-wide text-violet-700 mb-2">Meine Lernreise</p>
+      <h1 class="text-3xl font-extrabold tracking-tight text-gray-900">Willkommen zurück, Maria</h1>
+      <p class="mt-1 text-gray-600">Mach genau da weiter, wo du aufgehört hast.</p>
+    </div>
+
+    <!-- Stat strip -->
+    <div class="grid gap-4 sm:grid-cols-3 mb-10">
+      <div class="rounded-xl border border-gray-200 bg-white p-5">
+        <p class="text-sm text-gray-500">Gebuchte Kurse</p>
+        <p class="mt-1 text-3xl font-extrabold tracking-tight text-gray-900">3</p>
+      </div>
+      <div class="rounded-xl border border-gray-200 bg-white p-5">
+        <p class="text-sm text-gray-500">Abgeschlossene Lektionen</p>
+        <p class="mt-1 text-3xl font-extrabold tracking-tight text-gray-900">18</p>
+      </div>
+      <div class="rounded-xl border border-gray-200 bg-white p-5">
+        <p class="text-sm text-gray-500">Lernstunden</p>
+        <p class="mt-1 text-3xl font-extrabold tracking-tight text-gray-900">12,5</p>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="flex items-center gap-1 border-b border-gray-200 mb-6">
+      <button class="px-4 py-2.5 text-sm font-medium text-violet-700 border-b-2 border-violet-600 -mb-px">Aktiv</button>
+      <button class="px-4 py-2.5 text-sm font-medium text-gray-500 hover:text-gray-900">Warteliste</button>
+      <button class="px-4 py-2.5 text-sm font-medium text-gray-500 hover:text-gray-900">Abgeschlossen</button>
+    </div>
+
+    <!-- Course list (confirmed) -->
+    <div class="space-y-4">
+
+      <!-- confirmed in progress -->
+      <div class="rounded-xl border border-gray-200 bg-white p-5 hover:border-gray-300 transition flex flex-col sm:flex-row gap-5">
+        <div class="w-full sm:w-40 aspect-[16/9] rounded-lg bg-gradient-to-br from-violet-500 to-violet-700 grid place-items-center shrink-0">
+          <span class="text-white/90 text-2xl font-extrabold tracking-tight">AI</span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <span class="text-xs font-semibold uppercase tracking-wide text-violet-700">KI &amp; Automation</span>
+              <h3 class="text-lg font-semibold text-gray-900 mt-0.5">Prompt Engineering meistern</h3>
+              <p class="text-sm text-gray-500 mt-0.5">Daniel R. · Nächster Termin: Di, 9. Juni · 18:00</p>
+            </div>
+            <span class="inline-flex items-center gap-1 rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-800 shrink-0">Bestätigt</span>
+          </div>
+          <div class="mt-4">
+            <div class="flex items-center justify-between text-xs text-gray-500 mb-1.5">
+              <span>Fortschritt</span><span>4 von 12 Lektionen</span>
+            </div>
+            <div class="h-2 rounded-full bg-gray-100 overflow-hidden">
+              <div class="h-full w-1/3 rounded-full bg-violet-600"></div>
+            </div>
+          </div>
+          <div class="mt-4 flex gap-2">
+            <a href="course-detail.html" class="rounded-lg bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700">Weiterlernen</a>
+            <a href="course-detail.html" class="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Details</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- confirmed not started -->
+      <div class="rounded-xl border border-gray-200 bg-white p-5 hover:border-gray-300 transition flex flex-col sm:flex-row gap-5">
+        <div class="w-full sm:w-40 aspect-[16/9] rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 grid place-items-center shrink-0">
+          <span class="text-white/90 text-2xl font-extrabold tracking-tight">PD</span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <span class="text-xs font-semibold uppercase tracking-wide text-violet-700">Produktivität</span>
+              <h3 class="text-lg font-semibold text-gray-900 mt-0.5">Notion Mastery</h3>
+              <p class="text-sm text-gray-500 mt-0.5">Julia K. · Startet: Mo, 15. Juni · 19:00</p>
+            </div>
+            <span class="inline-flex items-center gap-1 rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-800 shrink-0">Bestätigt</span>
+          </div>
+          <div class="mt-4">
+            <div class="flex items-center justify-between text-xs text-gray-500 mb-1.5">
+              <span>Fortschritt</span><span>Noch nicht gestartet</span>
+            </div>
+            <div class="h-2 rounded-full bg-gray-100 overflow-hidden">
+              <div class="h-full w-0 rounded-full bg-violet-600"></div>
+            </div>
+          </div>
+          <div class="mt-4 flex gap-2">
+            <a href="course-detail.html" class="rounded-lg bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700">Lernen starten</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- waitlisted -->
+      <div class="rounded-xl border border-gray-200 bg-white p-5 hover:border-gray-300 transition flex flex-col sm:flex-row gap-5">
+        <div class="w-full sm:w-40 aspect-[16/9] rounded-lg bg-gradient-to-br from-amber-400 to-orange-600 grid place-items-center shrink-0">
+          <span class="text-white/90 text-2xl font-extrabold tracking-tight">RP</span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <span class="text-xs font-semibold uppercase tracking-wide text-violet-700">Entwicklung</span>
+              <h3 class="text-lg font-semibold text-gray-900 mt-0.5">Rails Performance Tuning</h3>
+              <p class="text-sm text-gray-500 mt-0.5">Sarah L. · Kurs ausgebucht</p>
+            </div>
+            <span class="inline-flex items-center gap-1 rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-800 shrink-0">Warteliste · Platz 2</span>
+          </div>
+          <div class="mt-4 rounded-lg bg-amber-50 border border-amber-100 px-4 py-3 text-sm text-amber-800">
+            Du stehst auf der Warteliste. Sobald ein Platz frei wird, rückst du automatisch nach und wirst per E-Mail informiert. Die Zahlung erfolgt erst bei Bestätigung.
+          </div>
+          <div class="mt-4 flex gap-2">
+            <button class="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Von Warteliste entfernen</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Recommended -->
+    <section class="mt-12">
+      <h2 class="text-xl font-bold tracking-tight text-gray-900 mb-1">Halte den Schwung</h2>
+      <p class="text-sm text-gray-600 mb-5">Kurse, die zu deinen Interessen passen.</p>
+      <div class="grid gap-6 sm:grid-cols-3">
+        <a href="course-detail.html" class="group rounded-xl border border-gray-200 bg-white overflow-hidden hover:border-gray-300 transition">
+          <div class="aspect-[16/9] bg-gradient-to-br from-rose-400 to-rose-600 grid place-items-center"><span class="text-white/90 text-3xl font-extrabold">RB</span></div>
+          <div class="p-4">
+            <span class="text-xs font-semibold uppercase tracking-wide text-violet-700">Entwicklung</span>
+            <h3 class="text-base font-semibold text-gray-900 mt-1 group-hover:text-violet-700">Claude Code im Projektalltag</h3>
+            <div class="mt-3 flex items-center justify-between"><span class="text-sm text-gray-500">4.8 ★ (1.200)</span><span class="font-bold text-gray-900">129&nbsp;€</span></div>
+          </div>
+        </a>
+        <a href="course-detail.html" class="group rounded-xl border border-gray-200 bg-white overflow-hidden hover:border-gray-300 transition">
+          <div class="aspect-[16/9] bg-gradient-to-br from-sky-400 to-sky-600 grid place-items-center"><span class="text-white/90 text-3xl font-extrabold">DS</span></div>
+          <div class="p-4">
+            <span class="text-xs font-semibold uppercase tracking-wide text-violet-700">Design</span>
+            <h3 class="text-base font-semibold text-gray-900 mt-1 group-hover:text-violet-700">Design Thinking für Einsteiger</h3>
+            <div class="mt-3 flex items-center justify-between"><span class="text-sm text-gray-500">4.7 ★ (900)</span><span class="font-bold text-gray-900">59&nbsp;€</span></div>
+          </div>
+        </a>
+        <a href="course-detail.html" class="group rounded-xl border border-gray-200 bg-white overflow-hidden hover:border-gray-300 transition">
+          <div class="aspect-[16/9] bg-gradient-to-br from-slate-500 to-slate-700 grid place-items-center"><span class="text-white/90 text-3xl font-extrabold">GIT</span></div>
+          <div class="p-4">
+            <span class="text-xs font-semibold uppercase tracking-wide text-violet-700">Entwicklung</span>
+            <h3 class="text-base font-semibold text-gray-900 mt-1 group-hover:text-violet-700">Git-Grundlagen</h3>
+            <div class="mt-3 flex items-center justify-between"><span class="text-sm text-gray-500">4.5 ★ (2.100)</span><span class="font-bold text-green-700">Gratis</span></div>
+          </div>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-gray-200 bg-white mt-8">
+    <div class="max-w-6xl mx-auto px-6 py-8 text-xs text-gray-400">© 2026 Kursverwaltung. Alle Rechte vorbehalten.</div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kurse entdecken · Kursverwaltung</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-900 min-h-screen antialiased">
+
+  <!-- ===== Header (learner-facing) ===== -->
+  <header class="sticky top-0 z-20 bg-white/90 backdrop-blur border-b border-gray-200">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="marketplace.html" class="flex items-center gap-2">
+        <span class="grid place-items-center w-8 h-8 rounded-lg bg-violet-600 text-white font-bold">K</span>
+        <span class="text-lg font-bold tracking-tight">Kursverwaltung</span>
+      </a>
+      <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-gray-600">
+        <a href="marketplace.html" class="text-violet-700">Kurse</a>
+        <a href="#" class="hover:text-gray-900">Kategorien</a>
+        <a href="#" class="hover:text-gray-900">Für Unternehmen</a>
+        <a href="#" class="hover:text-gray-900">Über uns</a>
+      </nav>
+      <div class="flex items-center gap-3">
+        <a href="checkout.html" class="relative grid place-items-center w-10 h-10 rounded-lg border border-gray-200 hover:border-gray-300 text-gray-700">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.5l.9 12.6a1.5 1.5 0 001.5 1.4h10.7a1.5 1.5 0 001.5-1.2l1.4-7.2H5.1M9 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm9 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/></svg>
+          <span class="absolute -top-1.5 -right-1.5 grid place-items-center w-5 h-5 rounded-full bg-violet-600 text-white text-[10px] font-bold">2</span>
+        </a>
+        <a href="auth.html" class="hidden sm:inline-block text-sm font-medium text-gray-700 hover:text-gray-900">Anmelden</a>
+        <a href="auth.html" class="rounded-lg bg-violet-600 px-4 py-2 text-white text-sm font-medium hover:bg-violet-700">Registrieren</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== Hero ===== -->
+  <section class="bg-violet-50/60 border-b border-gray-200">
+    <div class="max-w-6xl mx-auto px-6 py-16 md:py-20">
+      <div class="max-w-2xl">
+        <p class="text-xs font-semibold uppercase tracking-wide text-violet-700 mb-3">Online lernen · selbstbestimmt</p>
+        <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 leading-tight">
+          Lerne die Fähigkeiten, die dich&nbsp;weiterbringen
+        </h1>
+        <p class="mt-4 text-base text-gray-600 leading-relaxed">
+          Expertengeführte Kurse zu KI, Entwicklung und Produktivität — selbstbestimmt im
+          eigenen Tempo, mit Zertifikat und lebenslangem Zugriff.
+        </p>
+        <div class="mt-7 flex flex-col sm:flex-row gap-3">
+          <div class="flex-1 flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-3">
+            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.3-4.3m0 0A7.5 7.5 0 105.2 5.2a7.5 7.5 0 0011.5 11.5z"/></svg>
+            <input type="text" placeholder="Suche nach Kursen, z. B. „Prompt Engineering“" class="w-full text-sm outline-none placeholder:text-gray-400">
+          </div>
+          <button class="rounded-xl bg-violet-600 px-6 py-3 text-white font-medium hover:bg-violet-700">Suchen</button>
+        </div>
+        <div class="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-gray-600">
+          <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.05 2.93c.3-.92 1.6-.92 1.9 0l1.36 4.18a1 1 0 00.95.69h4.4c.97 0 1.37 1.24.59 1.81l-3.56 2.59a1 1 0 00-.36 1.12l1.36 4.18c.3.92-.76 1.69-1.54 1.12l-3.56-2.59a1 1 0 00-1.18 0L6.25 18.6c-.78.57-1.84-.2-1.54-1.12l1.36-4.18a1 1 0 00-.36-1.12L2.15 9.6c-.78-.57-.38-1.81.59-1.81h4.4a1 1 0 00.95-.69z"/></svg> 4.8 Ø-Bewertung</span>
+          <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-violet-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.7a3 3 0 00-6 0M21 18.7a3 3 0 00-3.8-2.9M15 7.5a3 3 0 11-6 0 3 3 0 016 0z"/></svg> 5.700+ Teilnehmer</span>
+          <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-violet-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.15L12 14l7.74-3.85M12 14v7M4.26 10.15L12 6.3l7.74 3.85"/></svg> 24 Kurse</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Filters + Grid ===== -->
+  <main class="max-w-6xl mx-auto px-6 py-12">
+
+    <!-- Category filter pills -->
+    <div class="flex flex-wrap items-center gap-2 mb-8">
+      <button class="rounded-full bg-violet-600 px-4 py-1.5 text-sm font-medium text-white">Alle</button>
+      <button class="rounded-full border border-gray-200 bg-white px-4 py-1.5 text-sm font-medium text-gray-700 hover:border-gray-300">KI &amp; Automation</button>
+      <button class="rounded-full border border-gray-200 bg-white px-4 py-1.5 text-sm font-medium text-gray-700 hover:border-gray-300">Entwicklung</button>
+      <button class="rounded-full border border-gray-200 bg-white px-4 py-1.5 text-sm font-medium text-gray-700 hover:border-gray-300">Produktivität</button>
+      <button class="rounded-full border border-gray-200 bg-white px-4 py-1.5 text-sm font-medium text-gray-700 hover:border-gray-300">Design</button>
+
+      <div class="ml-auto flex items-center gap-2">
+        <label class="text-sm text-gray-500">Sortieren</label>
+        <select class="rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-700 outline-none hover:border-gray-300">
+          <option>Beliebteste</option>
+          <option>Neueste</option>
+          <option>Preis aufsteigend</option>
+          <option>Beste Bewertung</option>
+        </select>
+      </div>
+    </div>
+
+    <h2 class="text-xl font-bold tracking-tight text-gray-900 mb-5">Beliebte Kurse</h2>
+
+    <!-- Course grid -->
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+
+      <!-- Card 1 -->
+      <a href="course-detail.html" class="group rounded-xl border border-gray-200 bg-white overflow-hidden hover:border-gray-300 transition flex flex-col">
+        <div class="aspect-[16/9] bg-gradient-to-br from-violet-500 to-violet-700 grid place-items-center">
+          <span class="text-white/90 text-4xl font-extrabold tracking-tight">AI</span>
+        </div>
+        <div class="p-5 flex flex-col flex-1">
+          <span class="text-xs font-semibold uppercase tracking-wide text-violet-700 mb-2">KI &amp; Automation</span>
+          <h3 class="text-lg font-semibold text-gray-900 group-hover:text-violet-700 leading-snug">Prompt Engineering meistern</h3>
+          <p class="mt-1.5 text-sm text-gray-600 leading-relaxed line-clamp-2">Effektive Prompts für ChatGPT, Claude &amp; Co. schreiben. Ideal für Einsteiger und Neugierige.</p>
+          <div class="mt-3 flex items-center gap-1.5 text-sm">
+            <svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.05 2.93c.3-.92 1.6-.92 1.9 0l1.36 4.18a1 1 0 00.95.69h4.4c.97 0 1.37 1.24.59 1.81l-3.56 2.59a1 1 0 00-.36 1.12l1.36 4.18c.3.92-.76 1.69-1.54 1.12l-3.56-2.59a1 1 0 00-1.18 0L6.25 18.6c-.78.57-1.84-.2-1.54-1.12l1.36-4.18a1 1 0 00-.36-1.12L2.15 9.6c-.78-.57-.38-1.81.59-1.81h4.4a1 1 0 00.95-.69z"/></svg>
+            <span class="font-medium text-gray-900">4.9</span>
+            <span class="text-gray-500">(3.200)</span>
+          </div>
+          <div class="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="grid place-items-center w-7 h-7 rounded-full bg-violet-100 text-violet-700 text-xs font-semibold">DR</span>
+              <span class="text-xs text-gray-500">Daniel R.</span>
+            </div>
+            <span class="text-lg font-bold text-gray-900">49&nbsp;€</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 2 -->
+      <a href="course-detail.html" class="group rounded-xl border border-gray-200 bg-white overflow-hidden hover:border-gray-300 transition flex flex-col">
+        <div class="aspect-[16/9] bg-gradient-to-br from-rose-400 to-rose-600 grid place-items-center">
+          <span class="text-white/90 text-4xl font-extrabold tracking-tight">RB</span>
+        </div>
+        <div class="p-5 flex flex-col flex-1">
+          <span class="text-xs font-semibold uppercase tracking-wide text-violet-700 mb-2">Entwicklung</span>
+          <h3 class="text-lg font-semibold text-gray-900 group-hover:text-violet-700 leading-snug">Claude Code im Projektalltag</h3>
+          <p class="mt-1.5 text-sm text-gray-600 leading-relaxed line-clamp-2">Agentengestützte Entwicklung mit Claude Code — von der Idee bis zum Pull Request.</p>
+          <div class="mt-3 flex items-center gap-1.5 text-sm">
+            <svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.05 2.93c.3-.92 1.6-.92 1.9 0l1.36 4.18a1 1 0 00.95.69h4.4c.97 0 1.37 1.24.59 1.81l-3.56 2.59a1 1 0 00-.36 1.12l1.36 4.18c.3.92-.76 1.69-1.54 1.12l-3.56-2.59a1 1 0 00-1.18 0L6.25 18.6c-.78.57-1.84-.2-1.54-1.12l1.36-4.18a1 1 0 00-.36-1.12L2.15 9.6c-.78-.57-.38-1.81.59-1.81h4.4a1 1 0 00.95-.69z"/></svg>
+            <span class="font-medium text-gray-900">4.8</span>
+            <span class="text-gray-500">(1.200)</span>
+          </div>
+          <div class="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="grid place-items-center w-7 h-7 rounded-full bg-violet-100 text-violet-700 text-xs font-semibold">HT</span>
+              <span class="text-xs text-gray-500">Henning T.</span>
+            </div>
+            <span class="text-lg font-bold text-gray-900">129&nbsp;€</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 3 -->
+      <a href="course-detail.html" class="group rounded-xl border border-gray-200 bg-white overflow-hidden hover:border-gray-300 transition flex flex-col">
+        <div class="aspect-[16/9] bg-gradient-to-br from-emerald-400 to-emerald-600 grid place-items-center">
+          <span class="text-white/90 text-4xl font-extrabold tracking-tight">PD</span>
+        </div>
+        <div class="p-5 flex flex-col flex-1">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-semibold uppercase tracking-wide text-violet-700">Produktivität</span>
+            <span class="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-medium text-amber-800">Fast ausgebucht</span>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 group-hover:text-violet-700 leading-snug">Notion Mastery</h3>
+          <p class="mt-1.5 text-sm text-gray-600 leading-relaxed line-clamp-2">Aufgaben, Notizen und Projekte mit Notion organisieren — Schluss mit dem Chaos.</p>
+          <div class="mt-3 flex items-center gap-1.5 text-sm">
+            <svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.05 2.93c.3-.92 1.6-.92 1.9 0l1.36 4.18a1 1 0 00.95.69h4.4c.97 0 1.37 1.24.59 1.81l-3.56 2.59a1 1 0 00-.36 1.12l1.36 4.18c.3.92-.76 1.69-1.54 1.12l-3.56-2.59a1 1 0 00-1.18 0L6.25 18.6c-.78.57-1.84-.2-1.54-1.12l1.36-4.18a1 1 0 00-.36-1.12L2.15 9.6c-.78-.57-.38-1.81.59-1.81h4.4a1 1 0 00.95-.69z"/></svg>
+            <span class="font-medium text-gray-900">4.9</span>
+            <span class="text-gray-500">(1.500)</span>
+          </div>
+          <div class="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="grid place-items-center w-7 h-7 rounded-full bg-violet-100 text-violet-700 text-xs font-semibold">JK</span>
+              <span class="text-xs text-gray-500">Julia K.</span>
+            </div>
+            <span class="text-lg font-bold text-gray-900">39&nbsp;€</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 4 -->
+      <a href="course-detail.html" class="group rounded-xl border border-gray-200 bg-white overflow-hidden hover:border-gray-300 transition flex flex-col">
+        <div class="aspect-[16/9] bg-gradient-to-br from-sky-400 to-sky-600 grid place-items-center">
+          <span class="text-white/90 text-4xl font-extrabold tracking-tight">DS</span>
+        </div>
+        <div class="p-5 flex flex-col flex-1">
+          <span class="text-xs font-semibold uppercase tracking-wide text-violet-700 mb-2">Design</span>
+          <h3 class="text-lg font-semibold text-gray-900 group-hover:text-violet-700 leading-snug">Design Thinking für Einsteiger</h3>
+          <p class="mt-1.5 text-sm text-gray-600 leading-relaxed line-clamp-2">Kreatives Problemlösen mit einem menschenzentrierten Ansatz — praxisnah erklärt.</p>
+          <div class="mt-3 flex items-center gap-1.5 text-sm">
+            <svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.05 2.93c.3-.92 1.6-.92 1.9 0l1.36 4.18a1 1 0 00.95.69h4.4c.97 0 1.37 1.24.59 1.81l-3.56 2.59a1 1 0 00-.36 1.12l1.36 4.18c.3.92-.76 1.69-1.54 1.12l-3.56-2.59a1 1 0 00-1.18 0L6.25 18.6c-.78.57-1.84-.2-1.54-1.12l1.36-4.18a1 1 0 00-.36-1.12L2.15 9.6c-.78-.57-.38-1.81.59-1.81h4.4a1 1 0 00.95-.69z"/></svg>
+            <span class="font-medium text-gray-900">4.7</span>
+            <span class="text-gray-500">(900)</span>
+          </div>
+          <div class="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="grid place-items-center w-7 h-7 rounded-full bg-violet-100 text-violet-700 text-xs font-semibold">AM</span>
+              <span class="text-xs text-gray-500">Alex M.</span>
+            </div>
+            <span class="text-lg font-bold text-gray-900">59&nbsp;€</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 5 -->
+      <a href="course-detail.html" class="group rounded-xl border border-gray-200 bg-white overflow-hidden hover:border-gray-300 transition flex flex-col">
+        <div class="aspect-[16/9] bg-gradient-to-br from-amber-400 to-orange-600 grid place-items-center">
+          <span class="text-white/90 text-4xl font-extrabold tracking-tight">RP</span>
+        </div>
+        <div class="p-5 flex flex-col flex-1">
+          <span class="text-xs font-semibold uppercase tracking-wide text-violet-700 mb-2">Entwicklung</span>
+          <h3 class="text-lg font-semibold text-gray-900 group-hover:text-violet-700 leading-snug">Rails Performance Tuning</h3>
+          <p class="mt-1.5 text-sm text-gray-600 leading-relaxed line-clamp-2">N+1-Queries finden, Indizes setzen, Caching nutzen — schnellere Rails-Apps bauen.</p>
+          <div class="mt-3 flex items-center gap-1.5 text-sm">
+            <svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.05 2.93c.3-.92 1.6-.92 1.9 0l1.36 4.18a1 1 0 00.95.69h4.4c.97 0 1.37 1.24.59 1.81l-3.56 2.59a1 1 0 00-.36 1.12l1.36 4.18c.3.92-.76 1.69-1.54 1.12l-3.56-2.59a1 1 0 00-1.18 0L6.25 18.6c-.78.57-1.84-.2-1.54-1.12l1.36-4.18a1 1 0 00-.36-1.12L2.15 9.6c-.78-.57-.38-1.81.59-1.81h4.4a1 1 0 00.95-.69z"/></svg>
+            <span class="font-medium text-gray-900">4.6</span>
+            <span class="text-gray-500">(640)</span>
+          </div>
+          <div class="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="grid place-items-center w-7 h-7 rounded-full bg-violet-100 text-violet-700 text-xs font-semibold">SL</span>
+              <span class="text-xs text-gray-500">Sarah L.</span>
+            </div>
+            <span class="text-lg font-bold text-gray-900">89&nbsp;€</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 6: free -->
+      <a href="course-detail.html" class="group rounded-xl border border-gray-200 bg-white overflow-hidden hover:border-gray-300 transition flex flex-col">
+        <div class="aspect-[16/9] bg-gradient-to-br from-slate-500 to-slate-700 grid place-items-center">
+          <span class="text-white/90 text-4xl font-extrabold tracking-tight">GIT</span>
+        </div>
+        <div class="p-5 flex flex-col flex-1">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-semibold uppercase tracking-wide text-violet-700">Entwicklung</span>
+            <span class="inline-flex items-center gap-1 rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">Kostenlos</span>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 group-hover:text-violet-700 leading-snug">Git-Grundlagen</h3>
+          <p class="mt-1.5 text-sm text-gray-600 leading-relaxed line-clamp-2">Versionskontrolle verstehen: committen, branchen, mergen. Der perfekte Einstieg.</p>
+          <div class="mt-3 flex items-center gap-1.5 text-sm">
+            <svg class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.05 2.93c.3-.92 1.6-.92 1.9 0l1.36 4.18a1 1 0 00.95.69h4.4c.97 0 1.37 1.24.59 1.81l-3.56 2.59a1 1 0 00-.36 1.12l1.36 4.18c.3.92-.76 1.69-1.54 1.12l-3.56-2.59a1 1 0 00-1.18 0L6.25 18.6c-.78.57-1.84-.2-1.54-1.12l1.36-4.18a1 1 0 00-.36-1.12L2.15 9.6c-.78-.57-.38-1.81.59-1.81h4.4a1 1 0 00.95-.69z"/></svg>
+            <span class="font-medium text-gray-900">4.5</span>
+            <span class="text-gray-500">(2.100)</span>
+          </div>
+          <div class="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="grid place-items-center w-7 h-7 rounded-full bg-violet-100 text-violet-700 text-xs font-semibold">KV</span>
+              <span class="text-xs text-gray-500">Kevin L.</span>
+            </div>
+            <span class="text-lg font-bold text-green-700">Gratis</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="mt-10 grid place-items-center">
+      <button class="rounded-lg border border-gray-300 bg-white px-6 py-2.5 text-gray-700 font-medium hover:bg-gray-50">Mehr Kurse laden</button>
+    </div>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="border-t border-gray-200 bg-white">
+    <div class="max-w-6xl mx-auto px-6 py-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4 text-sm">
+      <div>
+        <div class="flex items-center gap-2 mb-3">
+          <span class="grid place-items-center w-8 h-8 rounded-lg bg-violet-600 text-white font-bold">K</span>
+          <span class="text-base font-bold tracking-tight">Kursverwaltung</span>
+        </div>
+        <p class="text-gray-500 leading-relaxed">Eine moderne Lernplattform für gefragte Fähigkeiten — expertengeführt, im eigenen Tempo.</p>
+      </div>
+      <div>
+        <p class="font-semibold text-gray-900 mb-3">Entdecken</p>
+        <ul class="space-y-2 text-gray-500">
+          <li><a href="marketplace.html" class="hover:text-gray-900">Alle Kurse</a></li>
+          <li><a href="#" class="hover:text-gray-900">Kategorien</a></li>
+          <li><a href="my-courses.html" class="hover:text-gray-900">Meine Kurse</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-semibold text-gray-900 mb-3">Unternehmen</p>
+        <ul class="space-y-2 text-gray-500">
+          <li><a href="#" class="hover:text-gray-900">Über uns</a></li>
+          <li><a href="#" class="hover:text-gray-900">Kontakt</a></li>
+          <li><a href="#" class="hover:text-gray-900">Impressum</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-semibold text-gray-900 mb-3">Für Trainer:innen</p>
+        <ul class="space-y-2 text-gray-500">
+          <li><a href="admin-dashboard.html" class="hover:text-gray-900">Trainer-Dashboard</a></li>
+          <li><a href="#" class="hover:text-gray-900">Kurs anbieten</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-gray-100">
+      <div class="max-w-6xl mx-auto px-6 py-5 text-xs text-gray-400">© 2026 Kursverwaltung. Alle Rechte vorbehalten.</div>
+    </div>
+  </footer>
+
+</body>
+</html>
