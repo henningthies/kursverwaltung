@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Kursverwaltung" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Kursverwaltung">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="bg-gray-50 text-gray-900 min-h-screen">
+    <header class="bg-white border-b border-gray-200">
+      <div class="max-w-4xl mx-auto px-5 py-4 flex items-center justify-between">
+        <%= link_to "Kursverwaltung", root_path, class: "text-lg font-semibold text-gray-900 hover:text-gray-600" %>
+        <%= link_to "Neuer Kurs", new_course_path, class: "rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white hover:bg-gray-700" %>
+      </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-5 py-8">
+      <% if notice.present? %>
+        <p class="mb-6 rounded-md bg-green-50 px-4 py-3 text-sm text-green-800 border border-green-200"><%= notice %></p>
+      <% end %>
+      <% if alert.present? %>
+        <p class="mb-6 rounded-md bg-red-50 px-4 py-3 text-sm text-red-800 border border-red-200"><%= alert %></p>
+      <% end %>
+
+      <%= yield %>
+    </main>
+  </body>
+</html>

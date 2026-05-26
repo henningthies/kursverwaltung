@@ -1,0 +1,74 @@
+<% content_for :title, @course.title %>
+
+<div class="flex items-start justify-between gap-4 mb-6">
+  <div>
+    <div class="flex items-center gap-3 mb-2">
+      <h1 class="text-2xl font-bold"><%= @course.title %></h1>
+      <%= course_status_badge(@course) %>
+    </div>
+    <p class="text-sm text-gray-500"><%= @course.instructor.presence || "Ohne Leitung" %></p>
+  </div>
+  <div class="flex items-center gap-3 shrink-0">
+    <%= link_to "Bearbeiten", edit_course_path(@course), class: "text-sm text-gray-600 hover:text-gray-900" %>
+    <%= button_to "Löschen", @course, method: :delete,
+          class: "text-sm text-red-600 hover:text-red-800",
+          data: { turbo_confirm: "Diesen Kurs wirklich löschen?" } %>
+  </div>
+</div>
+
+<% if @course.description.present? %>
+  <div class="rounded-lg border border-gray-200 bg-white p-6 mb-8">
+    <p class="whitespace-pre-line text-gray-700"><%= @course.description %></p>
+  </div>
+<% end %>
+
+<section>
+  <h2 class="text-lg font-semibold mb-4">Termine</h2>
+
+  <% if @sessions.any? %>
+    <ul class="divide-y divide-gray-200 rounded-lg border border-gray-200 bg-white mb-6">
+      <% @sessions.each do |session| %>
+        <li class="flex items-center justify-between px-4 py-3">
+          <div>
+            <p class="font-medium text-gray-900"><%= session.title %></p>
+            <% if session.starts_at %>
+              <p class="text-sm text-gray-500"><%= l(session.starts_at, format: :long) %></p>
+            <% end %>
+          </div>
+          <%= button_to "Löschen", course_session_path(@course, session), method: :delete,
+                class: "text-sm text-red-600 hover:text-red-800",
+                data: { turbo_confirm: "Diesen Termin löschen?" } %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="text-gray-500 mb-6">Noch keine Termine.</p>
+  <% end %>
+
+  <div class="rounded-lg border border-gray-200 bg-white p-6">
+    <h3 class="font-medium mb-4">Termin hinzufügen</h3>
+    <%= form_with model: [@course, @session], class: "space-y-4" do |form| %>
+      <% if @session.errors.any? %>
+        <div class="rounded-md bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-800">
+          <ul class="list-disc list-inside">
+            <% @session.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div>
+        <%= form.label :title, "Titel", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= form.text_field :title, class: "block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-gray-500 focus:ring-gray-500" %>
+      </div>
+
+      <div>
+        <%= form.label :starts_at, "Beginn", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= form.datetime_local_field :starts_at, class: "block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-gray-500 focus:ring-gray-500" %>
+      </div>
+
+      <%= form.submit "Termin hinzufügen", class: "rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700 cursor-pointer" %>
+    <% end %>
+  </div>
+</section>

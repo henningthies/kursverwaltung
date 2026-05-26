@@ -1,0 +1,14 @@
+claude_termin_1:
+  course: claude_code
+  title: Termin 1 — LLM vs. Agent
+  starts_at: 2026-06-02 18:00:00
+
+claude_termin_2:
+  course: claude_code
+  title: Termin 2 — Skills, MCP, Hooks
+  starts_at: 2026-06-09 18:00:00
+
+performance_termin_1:
+  course: rails_performance
+  title: Profiling-Grundlagen
+  starts_at: 2026-07-07 18:00:00

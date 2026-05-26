@@ -1,0 +1,37 @@
+<%= form_with model: course, class: "space-y-5" do |form| %>
+  <% if course.errors.any? %>
+    <div class="rounded-md bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-800">
+      <p class="font-medium"><%= pluralize(course.errors.count, "Fehler") %> verhindern das Speichern:</p>
+      <ul class="list-disc list-inside mt-1">
+        <% course.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :title, "Titel", class: "block text-sm font-medium text-gray-700 mb-1" %>
+    <%= form.text_field :title, class: "block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-gray-500 focus:ring-gray-500" %>
+  </div>
+
+  <div>
+    <%= form.label :instructor, "Leitung", class: "block text-sm font-medium text-gray-700 mb-1" %>
+    <%= form.text_field :instructor, class: "block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-gray-500 focus:ring-gray-500" %>
+  </div>
+
+  <div>
+    <%= form.label :status, "Status", class: "block text-sm font-medium text-gray-700 mb-1" %>
+    <%= form.select :status, Course::STATUSES, {}, class: "block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-gray-500 focus:ring-gray-500" %>
+  </div>
+
+  <div>
+    <%= form.label :description, "Beschreibung", class: "block text-sm font-medium text-gray-700 mb-1" %>
+    <%= form.text_area :description, rows: 4, class: "block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-gray-500 focus:ring-gray-500" %>
+  </div>
+
+  <div class="flex items-center gap-3">
+    <%= form.submit class: "rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700 cursor-pointer" %>
+    <%= link_to "Abbrechen", (course.persisted? ? course : courses_path), class: "text-sm text-gray-600 hover:text-gray-900" %>
+  </div>
+<% end %>
