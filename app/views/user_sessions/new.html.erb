@@ -1,0 +1,32 @@
+<% content_for :title, "Anmelden" %>
+
+<%= render "auth/brand_split" do %>
+  <div class="grid grid-cols-2 gap-1 rounded-lg bg-gray-100 p-1 mb-8 text-sm font-medium">
+    <%= link_to "Registrieren", new_registration_path, class: "rounded-md px-4 py-2 text-center text-gray-500 hover:text-gray-900" %>
+    <span class="rounded-md bg-white px-4 py-2 text-center text-gray-900 shadow-sm">Anmelden</span>
+  </div>
+
+  <h1 class="text-2xl font-bold tracking-tight text-gray-900">Willkommen zurück</h1>
+  <p class="mt-1 text-sm text-gray-600">Melde dich an, um weiterzulernen.</p>
+
+  <%= form_with url: session_path, class: "mt-6 space-y-4" do |form| %>
+    <div>
+      <%= form.label :email, "E-Mail", class: "block text-sm font-medium text-gray-700 mb-1.5" %>
+      <%= form.email_field :email, required: true, autofocus: true, autocomplete: "email",
+            placeholder: "maria@beispiel.de", value: params[:email],
+            class: "w-full rounded-lg border border-gray-200 px-3.5 py-2.5 text-sm outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-100" %>
+    </div>
+    <div>
+      <%= form.label :password, "Passwort", class: "block text-sm font-medium text-gray-700 mb-1.5" %>
+      <%= form.password_field :password, required: true, autocomplete: "current-password", placeholder: "••••••••",
+            class: "w-full rounded-lg border border-gray-200 px-3.5 py-2.5 text-sm outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-100" %>
+    </div>
+
+    <%= form.submit "Anmelden",
+          class: "w-full rounded-lg bg-violet-600 px-4 py-2.5 text-white font-medium hover:bg-violet-700 cursor-pointer" %>
+  <% end %>
+
+  <p class="mt-6 text-center text-sm text-gray-600">
+    Noch kein Konto? <%= link_to "Jetzt registrieren", new_registration_path, class: "text-violet-700 font-medium hover:underline" %>
+  </p>
+<% end %>

@@ -2,6 +2,13 @@
 Enrollment.destroy_all
 Participant.destroy_all
 Course.destroy_all
+User.destroy_all
+
+# Demo-Konten: ein Admin (Verwaltung) und eine Lernende (Marketplace).
+admin   = User.create!(name: "Henning Thies", email: "admin@example.com",
+                       password: "geheim123", role: "admin")
+learner = User.create!(name: "Lena Lernerin", email: "lena@example.com",
+                       password: "geheim123", role: "learner")
 
 claude = Course.create!(
   title: "Claude Code im Projektalltag",

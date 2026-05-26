@@ -1,4 +1,5 @@
 class SessionsController < ApplicationController
+  before_action :require_admin
   before_action :set_course
 
   def create

@@ -9,6 +9,11 @@ Rails.application.routes.draw do
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
+  # Authentifizierung (Rails-8-Stil, ohne Devise). Login/Logout liegt im
+  # UserSessionsController, weil SessionsController bereits die Kurs-Termine verwaltet.
+  resource  :registration, only: %i[new create]
+  resource  :session, only: %i[new create destroy], controller: "user_sessions"
+
   resources :courses do
     resources :sessions,     only: %i[create destroy]
     resources :enrollments,  only: %i[create destroy]

@@ -3,6 +3,7 @@ require "test_helper"
 class SessionsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @course = courses(:claude_code)
+    sign_in_as(users(:admin))
   end
 
   test "adds a session to a course" do
