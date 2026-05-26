@@ -29,8 +29,10 @@ class CoursesControllerTest < ActionDispatch::IntegrationTest
     get participants_course_url(@course, format: :json)
     assert_response :success
     people = JSON.parse(response.body)
-    assert people.any?, "erwartet mindestens einen Teilnehmer"
-    assert people.all? { |p| p.key?("name") && p.key?("email") }
+    # claude_code hat genau einen Teilnehmer (alice) via Fixture.
+    assert_equal 1, people.size
+    assert_equal "Alice Müller", people.first["name"]
+    assert_equal "alice@example.com", people.first["email"]
   end
 
   test "show displays a course with its sessions" do
