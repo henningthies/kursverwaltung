@@ -1,0 +1,15 @@
+alice:
+  name: Alice Müller
+  email: alice@example.com
+
+bob:
+  name: Bob Schmidt
+  email: bob@example.com
+
+carol:
+  name: Carol Weber
+  email: carol@example.com
+
+dave:
+  name: Dave Fischer
+  email: dave@example.com

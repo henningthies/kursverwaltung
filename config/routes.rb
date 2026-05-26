@@ -10,7 +10,12 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   resources :courses do
-    resources :sessions, only: %i[create destroy]
+    resources :sessions,     only: %i[create destroy]
+    resources :enrollments,  only: %i[create destroy]
+    member do
+      # Bewusste Demo-Schwachstelle (T3 Security): PII-Export, siehe CoursesController#participants.
+      get :participants
+    end
   end
 
   # Defines the root path route ("/")

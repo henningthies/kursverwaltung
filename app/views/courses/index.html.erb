@@ -9,9 +9,13 @@
         <div class="flex items-start justify-between gap-4">
           <div>
             <h2 class="text-lg font-semibold text-gray-900"><%= course.title %></h2>
+            <%# BEWUSSTE DEMO-SCHWACHSTELLE (T3 Performance): Diese beiden .count-Aufrufe
+                je Kurs erzeugen eine N+1-Query (CoursesController#index lädt ohne includes/
+                counter_cache). NICHT vorab fixen — das Finden & Beheben ist die Live-Demo. %>
             <p class="text-sm text-gray-500 mt-1">
               <%= course.instructor.presence || "Ohne Leitung" %>
-              · <%= pluralize(course.sessions.size, "Termin", plural: "Termine") %>
+              · <%= pluralize(course.enrollments.confirmed.count, "Anmeldung", plural: "Anmeldungen") %>
+              · <%= pluralize(course.sessions.count, "Termin", plural: "Termine") %>
             </p>
           </div>
           <%= course_status_badge(course) %>

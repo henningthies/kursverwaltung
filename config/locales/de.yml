@@ -17,18 +17,30 @@ de:
     models:
       course: Kurs
       session: Termin
+      participant: Teilnehmer
+      enrollment: Anmeldung
     attributes:
       course:
         title: Titel
         status: Status
         description: Beschreibung
         instructor: Leitung
+        capacity: Kapazität
       session:
         title: Titel
         starts_at: Beginn
+      participant:
+        name: Name
+        email: E-Mail
+      enrollment:
+        status: Status
+        participant_id: Teilnehmer
     errors:
       messages:
         blank: muss ausgefüllt werden
         inclusion: ist kein gültiger Wert
+        taken: ist bereits vergeben
+        greater_than: muss größer als %{count} sein
+        not_a_number: ist keine Zahl
   errors:
     format: "%{attribute} %{message}"

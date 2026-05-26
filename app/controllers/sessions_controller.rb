@@ -8,6 +8,8 @@ class SessionsController < ApplicationController
       redirect_to @course, notice: "Termin wurde hinzugefügt."
     else
       @sessions = @course.sessions.ordered
+      @confirmed_enrollments  = @course.enrollments.confirmed.oldest_first.includes(:participant)
+      @waitlisted_enrollments = @course.enrollments.waitlisted.oldest_first.includes(:participant)
       render "courses/show", status: :unprocessable_entity
     end
   end
