@@ -34,3 +34,23 @@ prompt_engineering:
   capacity: ~
   price_cents: 4900
   category: ki
+
+# Aktiver, kostenpflichtiger Kurs mit Kapazität 1 → über die Fixture-Anmeldung voll.
+notion_mastery:
+  title: Notion Mastery
+  status: active
+  instructor: Julia Klein
+  description: Aufgaben, Notizen und Projekte mit Notion organisieren.
+  capacity: 1
+  price_cents: 3900
+  category: productivity
+
+# Aktiver, kostenloser Kurs → Badge Gratis, Buchung ohne Checkout.
+free_intro:
+  title: Einführung in KI
+  status: active
+  instructor: Maria Berg
+  description: Ein kostenloser Einstieg in KI-Werkzeuge.
+  capacity: ~
+  price_cents: 0
+  category: ki

@@ -25,7 +25,8 @@ class CatalogControllerTest < ActionDispatch::IntegrationTest
   test "filtering by category shows only that category's active courses" do
     get root_url(category: categories(:ki).slug)
     assert_select "h3", text: "Prompt Engineering meistern"
-    assert_select "h3", text: "Claude Code im Projektalltag", count: 0
+    assert_select "h3", text: "Einführung in KI"
+    assert_select "h3", text: "Claude Code im Projektalltag", count: 0   # Entwicklung
   end
 
   test "unknown category falls back to all active courses" do

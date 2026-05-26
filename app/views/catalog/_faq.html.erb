@@ -1,0 +1,17 @@
+<%# FAQ bewusst hartkodiert (kein Modell) — siehe ADR 0005. %>
+<section>
+  <h2 class="text-xl font-bold tracking-tight text-gray-900 mb-5">Häufige Fragen</h2>
+  <div class="space-y-3">
+    <% [
+      ["Brauche ich Vorkenntnisse?", "Nein. Der Kurs startet bei den Grundlagen und baut Schritt für Schritt auf."],
+      ["Wie lange habe ich Zugriff?", "Nach der Buchung hast du dauerhaft Zugriff auf alle Inhalte."],
+      ["Gibt es ein Zertifikat?", "Ja, nach Abschluss erhältst du ein Teilnahme-Zertifikat."],
+      ["Was passiert bei einem ausgebuchten Kurs?", "Deine Buchung kommt auf die Warteliste; wird ein Platz frei, rückst du automatisch nach."]
+    ].each do |question, answer| %>
+      <details class="rounded-xl border border-gray-200 bg-white px-5 py-4">
+        <summary class="font-semibold text-gray-900 cursor-pointer"><%= question %></summary>
+        <p class="mt-2 text-sm text-gray-600"><%= answer %></p>
+      </details>
+    <% end %>
+  </div>
+</section>

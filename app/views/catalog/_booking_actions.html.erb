@@ -1,0 +1,16 @@
+<%# Buchungs-Aktionen. Epic 3 zeigt die CTAs; Epic 4 verdrahtet sie mit Warenkorb/Checkout. %>
+<% if course.free? %>
+  <button type="button"
+          class="rounded-lg bg-violet-600 px-4 py-2.5 text-white font-medium hover:bg-violet-700">
+    Jetzt buchen
+  </button>
+<% else %>
+  <button type="button"
+          class="rounded-lg bg-violet-600 px-4 py-2.5 text-white font-medium hover:bg-violet-700">
+    Jetzt buchen
+  </button>
+  <button type="button"
+          class="rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-700 font-medium hover:bg-gray-50">
+    In den Warenkorb
+  </button>
+<% end %>

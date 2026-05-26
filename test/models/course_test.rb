@@ -27,7 +27,8 @@ class CourseTest < ActiveSupport::TestCase
 
   test "in_category filters by category, nil means all" do
     ki = categories(:ki)
-    assert_equal ["Prompt Engineering meistern"], Course.in_category(ki).pluck(:title).sort
+    assert_equal ["Einführung in KI", "Prompt Engineering meistern"],
+                 Course.in_category(ki).pluck(:title).sort
     assert_equal Course.count, Course.in_category(nil).count
   end
 

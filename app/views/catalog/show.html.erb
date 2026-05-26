@@ -1,0 +1,101 @@
+<% content_for :title, @course.title %>
+
+<%# ===== Kopf: Titel + klebrige Preis-Karte ===== %>
+<section class="bg-violet-50/60 border-b border-gray-200">
+  <div class="max-w-6xl mx-auto px-6 py-10">
+    <nav class="text-sm text-gray-500 mb-6 flex items-center gap-2">
+      <%= link_to "Kurse", root_path, class: "hover:text-gray-900" %>
+      <% if @course.category %>
+        <span>/</span>
+        <%= link_to @course.category.name, root_path(category: @course.category.slug), class: "text-violet-700 hover:underline" %>
+      <% end %>
+    </nav>
+
+    <div class="grid lg:grid-cols-3 gap-10 items-start">
+      <div class="lg:col-span-2">
+        <% if @course.category %>
+          <p class="text-xs font-semibold uppercase tracking-wide text-violet-700 mb-3"><%= @course.category.name %></p>
+        <% end %>
+        <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-gray-900 leading-tight"><%= @course.title %></h1>
+        <% if @course.description.present? %>
+          <p class="mt-4 text-base text-gray-600 leading-relaxed max-w-2xl whitespace-pre-line"><%= @course.description %></p>
+        <% end %>
+
+        <div class="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-gray-600">
+          <span class="inline-flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-violet-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.7a3 3 0 00-6 0M15 7.5a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            <%= pluralize(@course.confirmed_count, "Teilnehmer", plural: "Teilnehmer") %>
+          </span>
+          <span class="inline-flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-violet-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5A2.25 2.25 0 015.25 5.25h13.5A2.25 2.25 0 0121 7.5v11.25"/></svg>
+            <%= pluralize(@sessions.size, "Termin", plural: "Termine") %>
+          </span>
+          <span class="inline-flex items-center gap-1.5"><%= @course.instructor.presence || "Ohne Leitung" %></span>
+        </div>
+      </div>
+
+      <aside class="lg:sticky lg:top-24">
+        <%= render "catalog/price_card", course: @course %>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<%# ===== Körper: Überblick, Lehrplan, Trainer, Testimonials, FAQ ===== %>
+<main class="max-w-6xl mx-auto px-6 py-12">
+  <div class="grid lg:grid-cols-3 gap-10 items-start">
+    <div class="lg:col-span-2 space-y-12">
+      <section>
+        <h2 class="text-xl font-bold tracking-tight text-gray-900 mb-5">Lehrplan & Termine</h2>
+        <% if @sessions.any? %>
+          <div class="rounded-xl border border-gray-200 bg-white divide-y divide-gray-100">
+            <% @sessions.each_with_index do |session, index| %>
+              <div class="flex items-center justify-between px-5 py-4">
+                <div>
+                  <p class="font-semibold text-gray-900">Woche <%= index + 1 %>: <%= session.title %></p>
+                  <% if session.starts_at %>
+                    <p class="text-sm text-gray-500 mt-0.5"><%= l(session.starts_at, format: :long) %></p>
+                  <% end %>
+                </div>
+                <svg class="w-5 h-5 text-violet-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72"/></svg>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="text-gray-500">Die Termine werden in Kürze bekanntgegeben.</p>
+        <% end %>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold tracking-tight text-gray-900 mb-5">Das bekommst du</h2>
+        <ul class="grid sm:grid-cols-2 gap-x-8 gap-y-2.5 text-sm text-gray-600">
+          <% ["Lebenslanger Zugriff auf alle Lektionen", "Praxisnahe Beispiele und Vorlagen",
+              "Zugang zur Lerngruppe", "Zertifikat bei Abschluss"].each do |item| %>
+            <li class="flex items-start gap-2">
+              <svg class="w-4 h-4 mt-0.5 text-violet-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+              <%= item %>
+            </li>
+          <% end %>
+        </ul>
+      </section>
+
+      <%= render "catalog/testimonials" %>
+      <%= render "catalog/faq" %>
+    </div>
+
+    <aside class="space-y-6">
+      <div class="rounded-xl border border-gray-200 bg-white p-5">
+        <h3 class="text-sm font-semibold text-gray-900 mb-4">Dein Trainer</h3>
+        <div class="flex items-center gap-3">
+          <span class="grid place-items-center w-12 h-12 rounded-full bg-violet-100 text-violet-700 font-semibold">
+            <%= @course.instructor.to_s.split.map(&:first).first(2).join.upcase.presence || "?" %>
+          </span>
+          <div>
+            <p class="font-semibold text-gray-900"><%= @course.instructor.presence || "Ohne Leitung" %></p>
+            <p class="text-sm text-gray-500">Kursleitung</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</main>

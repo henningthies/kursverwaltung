@@ -17,7 +17,8 @@ class EnrollmentTest < ActiveSupport::TestCase
 
   test "scope confirmed returns only confirmed enrollments" do
     confirmed = Enrollment.confirmed
-    assert_equal 2, confirmed.count # alice (claude_code) + carol (git_for_teams)
+    # alice (claude_code) + carol (git_for_teams) + bob (notion_mastery)
+    assert_equal 3, confirmed.count
     assert confirmed.all? { |e| e.status == "confirmed" }
   end
 
