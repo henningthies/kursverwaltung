@@ -1,16 +1,10 @@
-<%# Buchungs-Aktionen. Epic 3 zeigt die CTAs; Epic 4 verdrahtet sie mit Warenkorb/Checkout. %>
-<% if course.free? %>
-  <button type="button"
-          class="rounded-lg bg-violet-600 px-4 py-2.5 text-white font-medium hover:bg-violet-700">
-    Jetzt buchen
-  </button>
-<% else %>
-  <button type="button"
-          class="rounded-lg bg-violet-600 px-4 py-2.5 text-white font-medium hover:bg-violet-700">
-    Jetzt buchen
-  </button>
-  <button type="button"
-          class="rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-700 font-medium hover:bg-gray-50">
-    In den Warenkorb
-  </button>
+<%# Buchungs-Aktionen, verdrahtet mit dem Session-Warenkorb (Epic 4). %>
+<%= button_to add_item_cart_path(course_id: course.id),
+      class: "rounded-lg bg-violet-600 px-4 py-2.5 text-white font-medium hover:bg-violet-700 w-full" do %>
+  <%= course.free? ? "Jetzt buchen" : "In den Warenkorb" %>
+<% end %>
+
+<% unless course.free? %>
+  <%= link_to "Warenkorb ansehen", cart_path,
+        class: "rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-700 font-medium hover:bg-gray-50 text-center" %>
 <% end %>

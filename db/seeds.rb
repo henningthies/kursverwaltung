@@ -99,5 +99,13 @@ notion.enroll(carol)   # waitlisted (Kurs voll)
 # Claude Code: unbegrenzt — Lena ist dabei.
 claude.enroll(lena)
 
+# Eine bezahlte Bestellung der Lernenden (Demo-Startzustand für Checkout/Meine Kurse).
+paid_order = learner.orders.build(status: "pending")
+paid_order.add_courses([prompt])
+paid_order.stripe_session_id = "cs_test_seed_paid"
+paid_order.save!
+paid_order.mark_paid!
+
 puts "Seeds: #{User.count} User, #{Category.count} Kategorien, #{Course.count} Kurse, " \
-     "#{Session.count} Termine, #{Participant.count} Teilnehmer, #{Enrollment.count} Anmeldungen."
+     "#{Session.count} Termine, #{Participant.count} Teilnehmer, #{Enrollment.count} Anmeldungen, " \
+     "#{Order.count} Bestellungen."

@@ -18,6 +18,17 @@ Rails.application.routes.draw do
   get "katalog", to: "catalog#index", as: :catalog
   get "kurse/:id", to: "catalog#show", as: :catalog_course
 
+  # Session-Warenkorb + Stripe-Checkout (Lernende).
+  resource  :cart, only: %i[show] do
+    post   "items/:course_id", to: "carts#add",    as: :add_item
+    delete "items/:course_id", to: "carts#remove", as: :remove_item
+  end
+  resource  :checkout, only: %i[create] do
+    get :success
+    get :cancel
+  end
+  post "webhooks/stripe", to: "webhooks#stripe"
+
   resources :courses do
     resources :sessions,     only: %i[create destroy]
     resources :enrollments,  only: %i[create destroy]

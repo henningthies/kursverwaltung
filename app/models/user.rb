@@ -3,6 +3,7 @@ class User < ApplicationRecord
 
   has_secure_password
   has_many :participants, dependent: :nullify
+  has_many :orders, dependent: :destroy
 
   normalizes :email, with: ->(e) { e.strip.downcase }
 

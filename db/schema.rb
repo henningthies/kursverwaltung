@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_26_222914) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_26_223912) do
   create_table "categories", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "name", null: false
@@ -42,6 +42,28 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_26_222914) do
     t.index ["course_id", "participant_id"], name: "index_enrollments_on_course_id_and_participant_id", unique: true
     t.index ["course_id"], name: "index_enrollments_on_course_id"
     t.index ["participant_id"], name: "index_enrollments_on_participant_id"
+  end
+
+  create_table "order_items", force: :cascade do |t|
+    t.integer "course_id", null: false
+    t.datetime "created_at", null: false
+    t.integer "order_id", null: false
+    t.integer "price_cents", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_order_items_on_course_id"
+    t.index ["order_id"], name: "index_order_items_on_order_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "paid_at"
+    t.string "status", default: "pending", null: false
+    t.string "stripe_session_id"
+    t.integer "total_cents", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["stripe_session_id"], name: "index_orders_on_stripe_session_id", unique: true
+    t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "participants", force: :cascade do |t|
@@ -76,6 +98,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_26_222914) do
   add_foreign_key "courses", "categories"
   add_foreign_key "enrollments", "courses"
   add_foreign_key "enrollments", "participants"
+  add_foreign_key "order_items", "courses"
+  add_foreign_key "order_items", "orders"
+  add_foreign_key "orders", "users"
   add_foreign_key "participants", "users"
   add_foreign_key "sessions", "courses"
 end

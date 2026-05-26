@@ -18,6 +18,25 @@ module ApplicationHelper
       class: "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium #{classes}"
   end
 
+  ORDER_STATUS_LABELS = {
+    "pending" => "Offen",
+    "paid"    => "Bezahlt",
+    "failed"  => "Fehlgeschlagen"
+  }.freeze
+
+  ORDER_STATUS_CLASSES = {
+    "pending" => "bg-amber-100 text-amber-800",
+    "paid"    => "bg-green-100 text-green-800",
+    "failed"  => "bg-gray-100 text-gray-500"
+  }.freeze
+
+  def order_status_badge(order)
+    label   = ORDER_STATUS_LABELS.fetch(order.status, order.status)
+    classes = ORDER_STATUS_CLASSES.fetch(order.status, "bg-gray-100 text-gray-700")
+    tag.span label,
+      class: "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium #{classes}"
+  end
+
   # Geld als Integer-Cents → deutsche Anzeige. price_cents = 0 → "Gratis".
   def price_display(price_cents)
     return "Gratis" if price_cents.to_i.zero?
