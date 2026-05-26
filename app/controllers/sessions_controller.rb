@@ -10,7 +10,6 @@ class SessionsController < ApplicationController
       @sessions = @course.sessions.ordered
       @confirmed_enrollments  = @course.enrollments.confirmed.oldest_first.includes(:participant)
       @waitlisted_enrollments = @course.enrollments.waitlisted.oldest_first.includes(:participant)
-      @enrollment_params = {}
       render "courses/show", status: :unprocessable_entity
     end
   end

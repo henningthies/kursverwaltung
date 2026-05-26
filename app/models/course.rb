@@ -20,8 +20,17 @@ class Course < ApplicationRecord
   end
 
   def enroll(participant)
-    status = full? ? "waitlisted" : "confirmed"
-    enrollments.create!(participant: participant, status: status)
+    new_status = full? ? "waitlisted" : "confirmed"
+    existing = enrollments.find_by(participant: participant)
+
+    # Eine früher stornierte Anmeldung wird reaktiviert statt doppelt angelegt.
+    # Eine noch aktive Anmeldung läuft bewusst in den Uniqueness-Fehler (Doppel-Anmeldung).
+    if existing&.status == "cancelled"
+      existing.update!(status: new_status)
+      existing
+    else
+      enrollments.create!(participant: participant, status: new_status)
+    end
   end
 
   def promote_next_waitlisted

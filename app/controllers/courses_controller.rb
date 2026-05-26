@@ -10,7 +10,6 @@ class CoursesController < ApplicationController
     @session = @course.sessions.new
     @confirmed_enrollments  = @course.enrollments.confirmed.oldest_first.includes(:participant)
     @waitlisted_enrollments = @course.enrollments.waitlisted.oldest_first.includes(:participant)
-    @enrollment_params = {}
   end
 
   def new
@@ -49,6 +48,6 @@ class CoursesController < ApplicationController
     end
 
     def course_params
-      params.expect(course: %i[title status description instructor])
+      params.expect(course: %i[title status description instructor capacity])
     end
 end

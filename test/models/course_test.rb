@@ -114,4 +114,16 @@ class CourseTest < ActiveSupport::TestCase
       course.enroll(participant)
     end
   end
+
+  # Wiederanmeldung nach Stornierung reaktiviert die bestehende Anmeldung (kein Duplikat)
+  test "re-enroll after cancel reactivates the existing enrollment" do
+    course = courses(:rails_performance)
+    alice = participants(:alice)
+    first = course.enroll(alice)
+    first.cancel
+    second = course.enroll(alice)
+    assert_equal first.id, second.id
+    assert_equal "confirmed", second.status
+    assert_equal 1, course.confirmed_count
+  end
 end

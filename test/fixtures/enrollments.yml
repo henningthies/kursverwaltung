@@ -1,9 +1,16 @@
+# alice ist im unbegrenzten Claude-Code-Kurs bestätigt.
 alice_claude_code:
   course: claude_code
   participant: alice
   status: confirmed
 
-bob_claude_code:
-  course: claude_code
-  participant: bob
+# git_for_teams hat capacity: 1 → carol bestätigt, dave logisch auf der Warteliste.
+carol_git:
+  course: git_for_teams
+  participant: carol
+  status: confirmed
+
+dave_git:
+  course: git_for_teams
+  participant: dave
   status: waitlisted

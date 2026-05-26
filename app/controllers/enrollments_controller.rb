@@ -2,21 +2,20 @@ class EnrollmentsController < ApplicationController
   before_action :set_course
 
   def create
-    participant = Participant.find_or_initialize_by(email: enrollment_params[:email])
-    participant.name = enrollment_params[:name] if participant.new_record?
+    @participant = Participant.find_or_initialize_by(email: enrollment_params[:email])
+    @participant.name = enrollment_params[:name] if @participant.new_record?
 
-    if participant.invalid?
+    if @participant.invalid?
       @sessions = @course.sessions.ordered
       @session = @course.sessions.new
       @confirmed_enrollments  = @course.enrollments.confirmed.oldest_first.includes(:participant)
       @waitlisted_enrollments = @course.enrollments.waitlisted.oldest_first.includes(:participant)
-      @enrollment_params = enrollment_params
       render "courses/show", status: :unprocessable_entity
       return
     end
 
-    participant.save!
-    enrollment = @course.enroll(participant)
+    @participant.save!
+    enrollment = @course.enroll(@participant)
 
     if enrollment.status == "confirmed"
       redirect_to @course, notice: "Anmeldung bestätigt."

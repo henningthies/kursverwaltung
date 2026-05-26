@@ -17,12 +17,14 @@ class EnrollmentTest < ActiveSupport::TestCase
 
   test "scope confirmed returns only confirmed enrollments" do
     confirmed = Enrollment.confirmed
+    assert_equal 2, confirmed.count # alice (claude_code) + carol (git_for_teams)
     assert confirmed.all? { |e| e.status == "confirmed" }
   end
 
   test "scope waitlisted returns only waitlisted enrollments" do
     waitlisted = Enrollment.waitlisted
-    assert waitlisted.all? { |e| e.status == "waitlisted" }
+    assert_equal 1, waitlisted.count # dave (git_for_teams)
+    assert_equal participants(:dave), waitlisted.first.participant
   end
 
   test "dependent destroy: removing course removes enrollments" do
