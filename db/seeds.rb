@@ -24,8 +24,15 @@ claude = Course.create!(
   instructor: "Henning Thies",
   category: development,
   price_cents: 12_900,
-  description: "Wie KI-Agenten im täglichen Entwicklungs-Workflow konkret helfen — " \
-               "von der Projekt-Erkundung über Reviews bis zum fertigen Feature-PR."
+  description: "Claude Code wird in diesem Kurs vom Spielzeug zum verlässlichen Werkzeug " \
+               "im Entwicklungsalltag. Du lernst, wie KI-Agenten ein fremdes Projekt " \
+               "erkunden, Änderungen sicher umsetzen und über Reviews bis zum fertigen " \
+               "Feature-PR führen.\n\n" \
+               "Wir arbeiten durchgehend an einer echten Rails-App: Du verstehst, wann ein " \
+               "Agent statt eines reinen Chats sinnvoll ist, wie CLAUDE.md, Skills, MCP und " \
+               "Hooks zusammenspielen und wie du Qualität mit Tests und einem klaren " \
+               "Review-Prozess absicherst. Für Entwickler:innen, die Claude Code produktiv " \
+               "und mit gutem Gefühl einsetzen wollen."
 )
 claude.sessions.create!([
   { title: "Termin 1 — LLM vs. Agent, Projekt erkunden", starts_at: "2026-06-02 18:00" },
@@ -39,8 +46,14 @@ prompt = Course.create!(
   instructor: "Daniel Roth",
   category: ki,
   price_cents: 4_900,
-  description: "Effektive Prompts für ChatGPT, Claude & Co. schreiben — " \
-               "ideal für Einsteiger und Neugierige."
+  description: "Gute Ergebnisse mit ChatGPT, Claude & Co. sind kein Zufall, sondern " \
+               "Handwerk. In diesem Kurs lernst du, Prompts gezielt zu strukturieren, " \
+               "Kontext klug zu setzen und typische Fehler zu vermeiden.\n\n" \
+               "Von den mentalen Modellen hinter Sprachmodellen über Few-Shot- und " \
+               "Chain-of-Thought-Techniken bis zum Einsatz von Tools baust du dir ein " \
+               "wiederverwendbares Repertoire auf, mit dem du Aufgaben aus Schreiben, " \
+               "Recherche und Alltag deutlich schneller und verlässlicher löst. Ideal für " \
+               "Einsteiger:innen und Neugierige."
 )
 prompt.sessions.create!([
   { title: "Grundlagen & Mentale Modelle", starts_at: "2026-06-04 18:00" },
@@ -54,7 +67,13 @@ git = Course.create!(
   instructor: "Maria Berg",
   category: development,
   price_cents: 0,
-  description: "Branching-Modelle, saubere Commits und Konfliktlösung im Team-Alltag."
+  description: "Git beherrschen heißt nicht nur committen und pushen, sondern im Team " \
+               "souverän zusammenarbeiten. Dieser Kurs zeigt dir Branching-Modelle, saubere " \
+               "Commit-Historien und den entspannten Umgang mit Konflikten.\n\n" \
+               "Du lernst Rebase, Cherry-Pick und Reflog kennen, verstehst, wann welcher " \
+               "Workflow passt, und gewinnst die Sicherheit, auch heikle Situationen ohne " \
+               "Datenverlust aufzulösen. Für Teams, die schneller und mit weniger Reibung " \
+               "releasen wollen."
 )
 git.sessions.create!([
   { title: "Branching & Merge-Strategien", starts_at: "2026-07-03 18:00" },
@@ -69,7 +88,13 @@ notion = Course.create!(
   category: productivity,
   price_cents: 3_900,
   capacity: 2,
-  description: "Aufgaben, Notizen und Projekte mit Notion organisieren — Schluss mit dem Chaos."
+  description: "Schluss mit verstreuten Notizen und To-do-Listen: In Notion Mastery baust " \
+               "du dir ein persönliches System für Aufgaben, Wissen und Projekte, das " \
+               "wirklich zu deinem Alltag passt.\n\n" \
+               "Du lernst Datenbanken, Views und Relationen sinnvoll einzusetzen, " \
+               "wiederkehrende Abläufe mit Templates und Automationen zu vereinfachen und " \
+               "dein Setup übersichtlich zu halten, statt dich in Möglichkeiten zu verlieren. " \
+               "Für alle, die produktiver und ruhiger arbeiten wollen."
 )
 notion.sessions.create!([
   { title: "Datenbanken & Views", starts_at: "2026-06-05 18:00" },
@@ -84,7 +109,13 @@ Course.create!(
   category: development,
   price_cents: 8_900,
   capacity: 2,
-  description: "N+1-Queries finden, Caching-Strategien und Datenbank-Indizes — messen statt raten."
+  description: "Langsame Rails-Apps haben fast immer dieselben Ursachen — dieser Kurs bringt " \
+               "dir bei, sie zu messen statt zu raten. Du spürst N+1-Queries auf, setzt " \
+               "Caching-Strategien gezielt ein und verstehst, welche Datenbank-Indizes " \
+               "wirklich etwas bringen.\n\n" \
+               "Anhand echter Beispiele lernst du, Engpässe zu finden, Änderungen sauber zu " \
+               "belegen und Performance dauerhaft im Blick zu behalten. Für Entwickler:innen, " \
+               "die ihre App spürbar schneller machen wollen."
 )
 
 # Teilnehmer (Anmelde-Identität). Lena ist zugleich der Lernenden-User.

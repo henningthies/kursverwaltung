@@ -1,4 +1,13 @@
 module ApplicationHelper
+  # Aktiv-Zustand für die Marketplace-Navigation: hebt den Link der aktuellen Sektion hervor.
+  def nav_link_class(active)
+    if active
+      "text-violet-700 font-semibold"
+    else
+      "text-gray-600 hover:text-gray-900"
+    end
+  end
+
   ENROLLMENT_STATUS_LABELS = {
     "confirmed"  => "Bestätigt",
     "waitlisted" => "Warteliste",

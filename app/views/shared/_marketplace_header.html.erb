@@ -5,13 +5,19 @@
       <span class="text-lg font-bold tracking-tight">Kursverwaltung</span>
     <% end %>
 
-    <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-gray-600">
-      <%= link_to "Kurse", root_path, class: "text-violet-700" %>
+    <nav class="hidden md:flex items-center gap-7 text-sm font-medium">
+      <% courses_active = controller_name == "catalog" %>
+      <% my_courses_active = controller_name == "my_courses" %>
+      <% admin_active = controller_name.in?(%w[courses sessions enrollments dashboard]) %>
+      <%= link_to "Kurse", root_path, class: nav_link_class(courses_active),
+            aria: { current: courses_active ? "page" : nil } %>
       <% if logged_in? %>
-        <%= link_to "Meine Kurse", my_courses_path, class: "hover:text-gray-900" %>
+        <%= link_to "Meine Kurse", my_courses_path, class: nav_link_class(my_courses_active),
+              aria: { current: my_courses_active ? "page" : nil } %>
       <% end %>
       <% if logged_in? && current_user.admin? %>
-        <%= link_to "Verwaltung", courses_path, class: "hover:text-gray-900" %>
+        <%= link_to "Verwaltung", courses_path, class: nav_link_class(admin_active),
+              aria: { current: admin_active ? "page" : nil } %>
       <% end %>
     </nav>
 
