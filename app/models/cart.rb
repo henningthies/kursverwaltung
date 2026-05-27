@@ -15,12 +15,12 @@ class Cart
 
   def add(course_id)
     @courses = nil
-    @course_ids = (course_ids + [course_id.to_i]).uniq
+    @course_ids = (course_ids + [ course_id.to_i ]).uniq
   end
 
   def remove(course_id)
     @courses = nil
-    @course_ids = course_ids - [course_id.to_i]
+    @course_ids = course_ids - [ course_id.to_i ]
   end
 
   def include?(course_id)

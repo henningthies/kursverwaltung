@@ -19,11 +19,11 @@ Rails.application.routes.draw do
   get "kurse/:id", to: "catalog#show", as: :catalog_course
 
   # Session-Warenkorb + Stripe-Checkout (Lernende).
-  resource  :cart, only: %i[show] do
+  resource :cart, only: %i[show] do
     post   "items/:course_id", to: "carts#add",    as: :add_item
     delete "items/:course_id", to: "carts#remove", as: :remove_item
   end
-  resource  :checkout, only: %i[create] do
+  resource :checkout, only: %i[create] do
     get :success
     get :cancel
   end

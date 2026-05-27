@@ -24,13 +24,13 @@ class Course < ApplicationRecord
   def remaining_seats
     return nil if capacity.nil?
 
-    [capacity - confirmed_count, 0].max
+    [ capacity - confirmed_count, 0 ].max
   end
 
   def almost_full?
     return false if capacity.nil? || full?
 
-    remaining_seats <= [(capacity * 0.2).ceil, 3].min
+    remaining_seats <= [ (capacity * 0.2).ceil, 3 ].min
   end
 
   def confirmed_count

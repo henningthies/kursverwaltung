@@ -13,15 +13,15 @@ class OrderTest < ActiveSupport::TestCase
 
   test "add_courses builds order items with price snapshots and sums the total" do
     order = @user.orders.build(status: "pending")
-    order.add_courses([courses(:claude_code), courses(:prompt_engineering)])
+    order.add_courses([ courses(:claude_code), courses(:prompt_engineering) ])
     assert_equal 2, order.order_items.size
-    assert_equal [4900, 12900], order.order_items.map(&:price_cents).sort
+    assert_equal [ 4900, 12900 ], order.order_items.map(&:price_cents).sort
     assert_equal 12900 + 4900, order.total_cents
   end
 
   test "price snapshot does not change when the course price later changes" do
     order = @user.orders.build(status: "pending")
-    order.add_courses([courses(:claude_code)])
+    order.add_courses([ courses(:claude_code) ])
     order.save!
     courses(:claude_code).update!(price_cents: 1)
     assert_equal 12900, order.order_items.first.price_cents

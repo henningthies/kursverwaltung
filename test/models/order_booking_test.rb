@@ -58,7 +58,7 @@ class OrderBookingTest < ActiveSupport::TestCase
 
   test "does not book while the order is still pending" do
     order = @user.orders.build(status: "pending")
-    order.add_courses([courses(:prompt_engineering)])
+    order.add_courses([ courses(:prompt_engineering) ])
     assert_no_difference "Enrollment.count" do
       order.save!
     end
