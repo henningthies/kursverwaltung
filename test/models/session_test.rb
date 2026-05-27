@@ -18,6 +18,6 @@ class SessionTest < ActiveSupport::TestCase
 
   test "ordered scope sorts sessions by starts_at" do
     ordered = courses(:claude_code).sessions.ordered.to_a
-    assert_equal [sessions(:claude_termin_1), sessions(:claude_termin_2)], ordered
+    assert_equal [ sessions(:claude_termin_1), sessions(:claude_termin_2) ], ordered
   end
 end

@@ -1,0 +1,44 @@
+<% content_for :title, "Kurse entdecken" %>
+
+<%# ===== Hero ===== %>
+<section class="bg-violet-50/60 border-b border-gray-200">
+  <div class="max-w-6xl mx-auto px-6 py-16 md:py-20">
+    <div class="max-w-2xl">
+      <p class="text-xs font-semibold uppercase tracking-wide text-violet-700 mb-3">Online lernen · selbstbestimmt</p>
+      <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 leading-tight">
+        Lerne die Fähigkeiten, die dich&nbsp;weiterbringen
+      </h1>
+      <p class="mt-4 text-base text-gray-600 leading-relaxed">
+        Expertengeführte Kurse zu KI, Entwicklung und Produktivität — selbstbestimmt im
+        eigenen Tempo, mit Zertifikat und lebenslangem Zugriff.
+      </p>
+    </div>
+  </div>
+</section>
+
+<%# ===== Filter + Grid ===== %>
+<main class="max-w-6xl mx-auto px-6 py-12">
+  <div class="flex flex-wrap items-center gap-2 mb-8">
+    <%= link_to "Alle", root_path,
+          class: "rounded-full px-4 py-1.5 text-sm font-medium #{@category.nil? ? "bg-violet-600 text-white" : "border border-gray-200 bg-white text-gray-700 hover:border-gray-300"}" %>
+    <% @categories.each do |category| %>
+      <%= link_to category.name, root_path(category: category.slug),
+            class: "rounded-full px-4 py-1.5 text-sm font-medium #{@category == category ? "bg-violet-600 text-white" : "border border-gray-200 bg-white text-gray-700 hover:border-gray-300"}" %>
+    <% end %>
+  </div>
+
+  <h2 class="text-xl font-bold tracking-tight text-gray-900 mb-5">
+    <%= @category ? @category.name : "Beliebte Kurse" %>
+  </h2>
+
+  <% if @courses.any? %>
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <%# BEWUSSTE DEMO-SCHWACHSTELLE (T3 Performance): keine includes/counter_cache.
+          Die Zähler je Karte (confirmed_count / sessions.count) erzeugen N+1-Queries.
+          NICHT vorab fixen — die Optimierung ist die Live-Demo. %>
+      <%= render partial: "catalog/course_card", collection: @courses, as: :course %>
+    </div>
+  <% else %>
+    <p class="text-gray-500">In dieser Kategorie gibt es noch keine Kurse.</p>
+  <% end %>
+</main>

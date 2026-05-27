@@ -9,6 +9,34 @@ Rails.application.routes.draw do
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
+  # Authentifizierung (Rails-8-Stil, ohne Devise). Login/Logout liegt im
+  # UserSessionsController, weil SessionsController bereits die Kurs-Termine verwaltet.
+  resource  :registration, only: %i[new create]
+  resource  :session, only: %i[new create destroy], controller: "user_sessions"
+
+  # Öffentlicher Marketplace (Lernende). Getrennt von der Admin-Verwaltung (CoursesController).
+  get "katalog", to: "catalog#index", as: :catalog
+  get "kurse/:id", to: "catalog#show", as: :catalog_course
+
+  # Session-Warenkorb + Stripe-Checkout (Lernende).
+  resource :cart, only: %i[show] do
+    post   "items/:course_id", to: "carts#add",    as: :add_item
+    delete "items/:course_id", to: "carts#remove", as: :remove_item
+  end
+  resource :checkout, only: %i[create] do
+    get :success
+    get :cancel
+  end
+  post "webhooks/stripe", to: "webhooks#stripe"
+
+  # "Meine Kurse" der eingeloggten Lernenden.
+  get "meine-kurse", to: "my_courses#index", as: :my_courses
+
+  # Verwaltung (nur admin): KPI-Dashboard.
+  namespace :admin do
+    get "dashboard", to: "dashboard#index"
+  end
+
   resources :courses do
     resources :sessions,     only: %i[create destroy]
     resources :enrollments,  only: %i[create destroy]
@@ -18,6 +46,6 @@ Rails.application.routes.draw do
     end
   end
 
-  # Defines the root path route ("/")
-  root "courses#index"
+  # Wurzel ist der öffentliche Marketplace; die Admin-Verwaltung liegt unter /courses.
+  root "catalog#index"
 end

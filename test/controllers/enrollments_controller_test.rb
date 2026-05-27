@@ -3,6 +3,7 @@ require "test_helper"
 class EnrollmentsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @course = courses(:rails_performance)  # capacity: 2, starts with 0 enrollments
+    sign_in_as(users(:admin))
   end
 
   test "create enrolls a new participant as confirmed" do

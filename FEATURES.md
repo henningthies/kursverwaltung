@@ -1,53 +1,61 @@
-# Features — Bau-Ziel für die Kursverwaltung
+# Features — Kursverwaltung (Kurs-Marketplace)
 
-Leitfaden für den Ausbau zu einer App, die im Kurs *genug zu zeigen* hat. **Jedes Feature
-zahlt auf eine konkrete Demo ein** — nichts wird „nur so" gebaut. Ergänzt `CLAUDE.md`
-(Domäne/Konventionen) und `prompt.md` (Bau-Reihenfolge).
+Die Kursverwaltung ist ein **Kurs-Marketplace mit echtem E-Commerce** plus ein **Admin-Bereich**
+— die durchgehende Demo-App für den Kurs *Claude Code im Projektalltag*. Diese Datei beschreibt
+**was die App ist und kann**. Detail-Entscheidungen stehen in den ADRs (`doc/adr/`), das
+Datenmodell + die Epics in `doc/product/learner-marketplace-epics.md`, die UI-Ziele in
+`mockups/` + `doc/design/ui-style-guide.md`.
 
-## Leitplanke (nicht überschreiten)
+## Was die App ist
 
-Reich heißt *mehr Substanz zum Navigieren*, nicht *mehr zum Erklären*.
+Zwei Bereiche, eine App, vanilla Rails:
 
-- **Am Bildschirm in Sekunden überblickbar.** Sobald man die Domäne erklären muss, lenkt sie ab.
-- **3–5 Modelle, vanilla Rails.** Keine Service-Layer, keine Engines, kein schweres JS, keine Auth-Tiefe, keine Zahlungs-/Mandanten-Logik.
-- **Echte Logik an wenigen Stellen** (Kapazität/Warteliste, Status-Übergänge) — dort, wo eine Demo sie braucht. Sonst schlicht.
-- Faustregel beim Hinzufügen: *„Welche Demo trägt das?"* Keine Antwort → weglassen.
+- **Lernende** browsen Kurse, öffnen eine Kursdetailseite, legen Kurse in den Warenkorb,
+  bezahlen über Stripe und finden ihre Buchungen unter „Meine Kurse".
+- **Admins** verwalten Kurse, Termine und Anmeldungen und sehen ein KPI-Dashboard
+  (Umsatz, Anmeldungen, Wartelisten).
 
-## Modell (Zielzustand)
+## Feature-Landkarte
 
-| Modell | Felder (Kern) | Beziehungen |
-|--------|---------------|-------------|
-| **Course** | `title`, `status` (draft/active/done), `description`, `instructor`, `capacity:integer` | `has_many :sessions`, `has_many :enrollments`, `has_many :participants, through: :enrollments` |
-| **Session** | `title`, `starts_at:datetime` | `belongs_to :course` |
-| **Participant** | `name`, `email` *(PII!)* | `has_many :enrollments`, `has_many :courses, through:` |
-| **Enrollment** | `status` (confirmed/waitlisted/cancelled) | `belongs_to :course`, `belongs_to :participant` |
+| Bereich | Features |
+|---------|----------|
+| **Auth & Rollen** | Registrierung, Login/Logout (`has_secure_password`), Rollen `learner`/`admin`, Gates `require_login` / `require_admin` |
+| **Marketplace** | Öffentliche Übersicht mit Kategorie-Filtern, Preisen und Verfügbarkeits-Badges (Gratis / Fast ausgebucht / Ausgebucht) |
+| **Kursdetail** | Skillery-Layout: klebrige Preis-Karte, Lehrplan (Termine), „Das bekommst du", Trainer, Testimonials, FAQ |
+| **Kauf** | Session-Warenkorb → Stripe Checkout → `Order`/`OrderItem` (Preis-Snapshot); kostenlose Kurse ohne Checkout; idempotenter Webhook |
+| **Buchung** | Nach Zahlung Anmeldung über `Course#enroll` (Kapazität/Warteliste); „Meine Kurse" mit Status |
+| **Verwaltung** | Course-/Session-/Enrollment-CRUD, Kapazität/Warteliste, KPI-Dashboard |
 
-`STATUSES`-Muster für jedes Status-Feld (Konstante + `inclusion`), nicht `enum`.
+## Echte Logik (demo-tragend)
 
-## Features → welche Demo sie tragen
+- **Kapazität + Warteliste** — `Course#enroll` / `#promote_next_waitlisted`, `Enrollment#cancel`
+  (voller Kurs → `waitlisted`; Absage → Nachrücken).
+- **Zahlung** — `PaymentGateway` (Stripe Checkout, Webhook, Idempotenz via `stripe_session_id`).
+- **Rollen-Autorisierung** — getrennter Lernenden- vs. Admin-Bereich.
 
-| Feature | Was es bringt | Trägt Demo |
-|---------|---------------|------------|
-| **Kapazität + Warteliste** bei Enrollment | Voller Kurs → `waitlisted`; Absage → nächste:r von der Warteliste nachrücken. Echte Logik mit Edge Cases (voll / leer / alle abgesagt). | **T3 `01-feature-zu-pr`** (das zentrale Feature→PR mit TDD) und **T3 `03-wenn-es-schiefgeht`** (Promotion-Logik ist eine perfekte Stelle für Over-Engineering / Edge-Case-Fehler) |
-| **Zähl-lastige Kursübersicht** („X Anmeldungen · Y Termine" pro Kurs) | Eingebaute **N+1-Falle** in der Index-Query. | **T3 Rails-Performance** *(offener Punkt im Overview)* — Claude findet & fixt N+1 via `includes` / `counter_cache` |
-| **Teilnehmer mit E-Mail/Name (PII)** + ein JSON-/Export-Endpoint | Realistische personenbezogene Daten + eine Stelle, an der PII versehentlich in Logs/JSON landet. | **T3 Security-PR-Review** *(offener Punkt im Overview)* — PII-Exposure im PR erkennbar machen |
-| **Status-Workflow Course** (draft→active→done, geordnete Übergänge) | Validierung mit Regeln statt freiem Feld. | **T3 `02-refactor-review`** (Logik refactoren + `/review`) und T2-Skill-Demo |
-| **Course-Level-Feld** (z. B. `level` low/medium/high) | Einfaches enum-artiges Feld nach `STATUSES`-Muster. | **T1 `01-llm-vs-agent`** („Feld hinzufügen") und **T1 `03-claude-md-wirkung`** (ohne/mit CLAUDE.md) |
-| **Termin-Zähler in der Übersicht** | Kleine, sichtbare Änderung über eine Assoziation. | **T1 `04-projekt-erkunden`** (erste Änderung im fremden Projekt) |
+## Bewusste Demo-Schwachstellen (NICHT „fixen")
 
-## Was bewusst NICHT rein soll
+Lehrstoff für die T3-Demos — als solche kommentiert, bleiben absichtlich drin:
 
-Auth/Login, Bezahlung, Mehrmandanten, Kalender-JS-Libs, E-Mail-Versand-Infrastruktur
-(höchstens ein Job-Stub), Admin-Frameworks, API-Versionierung. Alles davon kostet
-Überblickbarkeit, ohne eine Demo zu tragen.
+- **N+1** in Kursübersicht / Katalog / Admin-Dashboard (Zähler je Zeile) → **Performance-Demo**.
+- **PII-Export** `GET /courses/:id/participants` (Name + E-Mail, ungefiltert, geloggt) → **Security-Demo**.
 
-## Staffelung auf die Progressions-Tags
+## Konventionen
 
-- **`t1-start`** (siehe `prompt.md`): nur **Course + Session**, roh, ohne CLAUDE.md. Bewusst schlicht — das „fremde Projekt".
-- **`t1-end`**: + CLAUDE.md, + Termin-Zähler in der Übersicht.
-- **`t2-end`**: + `review`-Skill, MCP, Secrets-Hook, geschärfte CLAUDE.md.
-- **`t3-feature`**: + **Participant + Enrollment + Kapazität/Warteliste** (das Feature→PR). Hier kommen N+1-Übersicht und PII-Stelle dazu — als Boden für die Performance- und Security-Demos.
+Vanilla Rails / 37signals: `STATUSES`/`ROLES`-Muster (kein `enum`), `params.expect`, Logik in
+Modellen, deutsche UI / englischer Code, Minitest + Fixtures, Geld als Integer-Cents, violet-UI
+nach `doc/design/ui-style-guide.md`. Neue Features laufen über die Software-Factory
+(`feature-plan` → `feature-build` → `feature-review`).
 
-> Heißt für den Ausbau: Course/Session reich genug machen, dass T1/T2 etwas zu zeigen
-> haben — aber **Participant/Enrollment/Kapazität bewusst für T3 aufsparen**, damit das
-> Herzstück-Feature live entsteht und nicht schon da ist.
+## Historie — die Lehr-Progression (Tags)
+
+Die App begann als schlanke `Course`/`Session`-Demo und wuchs über drei Termine. Diese Stände
+sind als Tags erhalten und für den Kurs auscheckbar:
+
+- `t1-start` — Course + Session, roh.
+- `t1-end` — + CLAUDE.md, Termin-Zähler in der Übersicht.
+- `t2-end` — + `review`-Skill, MCP, Secrets-Hook, Software-Factory.
+- `t3-feature` — + Participant / Enrollment / Kapazität+Warteliste (Feature → PR).
+
+Der aktuelle `main`-Stand baut darauf den Marketplace (Auth + Zahlung) auf. Wer die schlanke
+Lehr-Demo zeigen will, checkt das passende Tag aus (`git checkout <tag> && bin/rails db:reset`).

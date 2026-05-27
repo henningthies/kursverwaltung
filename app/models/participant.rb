@@ -1,4 +1,5 @@
 class Participant < ApplicationRecord
+  belongs_to :user, optional: true
   has_many :enrollments, dependent: :destroy
   has_many :courses, through: :enrollments
 

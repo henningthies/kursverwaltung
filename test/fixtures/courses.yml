@@ -4,6 +4,8 @@ claude_code:
   instructor: Henning Thies
   description: KI-Agenten im Entwicklungs-Workflow.
   capacity: ~
+  price_cents: 12900
+  category: development
 
 rails_performance:
   title: Rails Performance
@@ -11,6 +13,8 @@ rails_performance:
   instructor: Henning Thies
   description: N+1-Queries und Caching.
   capacity: 2
+  price_cents: 8900
+  category: development
 
 git_for_teams:
   title: Git für Teams
@@ -18,3 +22,35 @@ git_for_teams:
   instructor: Maria Berg
   description: Branching und Konfliktlösung.
   capacity: 1
+  price_cents: 0
+  category: development
+
+# Aktiver, kostenpflichtiger KI-Kurs — öffentlich im Marketplace sichtbar.
+prompt_engineering:
+  title: Prompt Engineering meistern
+  status: active
+  instructor: Daniel Roth
+  description: Effektive Prompts für ChatGPT, Claude und Co.
+  capacity: ~
+  price_cents: 4900
+  category: ki
+
+# Aktiver, kostenpflichtiger Kurs mit Kapazität 1 → über die Fixture-Anmeldung voll.
+notion_mastery:
+  title: Notion Mastery
+  status: active
+  instructor: Julia Klein
+  description: Aufgaben, Notizen und Projekte mit Notion organisieren.
+  capacity: 1
+  price_cents: 3900
+  category: productivity
+
+# Aktiver, kostenloser Kurs → Badge Gratis, Buchung ohne Checkout.
+free_intro:
+  title: Einführung in KI
+  status: active
+  instructor: Maria Berg
+  description: Ein kostenloser Einstieg in KI-Werkzeuge.
+  capacity: ~
+  price_cents: 0
+  category: ki

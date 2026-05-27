@@ -5,6 +5,49 @@ class CourseTest < ActiveSupport::TestCase
     @course = courses(:claude_code)
   end
 
+  # --- Epic 2: Preis + Kategorie ---
+
+  test "price_cents must be a non-negative integer" do
+    @course.price_cents = -1
+    assert_not @course.valid?
+  end
+
+  test "free? is true only when price_cents is zero" do
+    assert courses(:git_for_teams).free?
+    assert_not courses(:claude_code).free?
+  end
+
+  test "published scope returns only active courses" do
+    titles = Course.published.pluck(:title)
+    assert_includes titles, "Claude Code im Projektalltag"   # active
+    assert_includes titles, "Prompt Engineering meistern"    # active
+    assert_not_includes titles, "Rails Performance"          # draft
+    assert_not_includes titles, "Git für Teams"              # done
+  end
+
+  test "in_category filters by category, nil means all" do
+    ki = categories(:ki)
+    assert_equal [ "Einführung in KI", "Prompt Engineering meistern" ],
+                 Course.in_category(ki).pluck(:title).sort
+    assert_equal Course.count, Course.in_category(nil).count
+  end
+
+  test "remaining_seats is nil without capacity and clamps at zero" do
+    assert_nil courses(:claude_code).remaining_seats
+    full = courses(:git_for_teams)   # capacity 1, carol confirmed via fixture
+    assert_equal 0, full.remaining_seats
+  end
+
+  test "almost_full? flags scarce capacity but not unlimited or full courses" do
+    assert_not courses(:claude_code).almost_full?   # unbegrenzt
+    assert_not courses(:git_for_teams).almost_full? # voll → eigener Zustand
+  end
+
+  test "belongs_to category is optional" do
+    @course.category = nil
+    assert @course.valid?
+  end
+
   test "requires a title" do
     @course.title = ""
     assert_not @course.valid?

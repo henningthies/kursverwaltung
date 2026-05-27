@@ -6,7 +6,11 @@
       <h1 class="text-2xl font-bold"><%= @course.title %></h1>
       <%= course_status_badge(@course) %>
     </div>
-    <p class="text-sm text-gray-500"><%= @course.instructor.presence || "Ohne Leitung" %></p>
+    <p class="text-sm text-gray-500">
+      <%= @course.instructor.presence || "Ohne Leitung" %>
+      · <%= price_display(@course.price_cents) %>
+      <%= "· #{@course.category.name}" if @course.category %>
+    </p>
   </div>
   <div class="flex items-center gap-3 shrink-0">
     <%= link_to "Bearbeiten", edit_course_path(@course), class: "text-sm text-gray-600 hover:text-gray-900" %>

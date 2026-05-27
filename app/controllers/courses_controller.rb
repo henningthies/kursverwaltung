@@ -1,5 +1,7 @@
 class CoursesController < ApplicationController
+  before_action :require_admin
   before_action :set_course, only: %i[show edit update destroy participants]
+  layout "admin"
 
   def index
     # BEWUSSTE DEMO-SCHWACHSTELLE (T3 Performance): kein includes / counter_cache.
@@ -59,6 +61,6 @@ class CoursesController < ApplicationController
     end
 
     def course_params
-      params.expect(course: %i[title status description instructor capacity])
+      params.expect(course: %i[title status description instructor capacity price_cents category_id])
     end
 end

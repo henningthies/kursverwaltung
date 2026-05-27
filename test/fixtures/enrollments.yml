@@ -14,3 +14,9 @@ dave_git:
   course: git_for_teams
   participant: dave
   status: waitlisted
+
+# notion_mastery hat capacity 1 → bob bestätigt füllt den Kurs (Demo "voll").
+bob_notion:
+  course: notion_mastery
+  participant: bob
+  status: confirmed

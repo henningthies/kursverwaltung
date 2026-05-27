@@ -1,5 +1,7 @@
 class EnrollmentsController < ApplicationController
+  before_action :require_admin
   before_action :set_course
+  layout "admin"
 
   def create
     @participant = Participant.find_or_initialize_by(email: enrollment_params[:email])

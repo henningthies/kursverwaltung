@@ -1,0 +1,39 @@
+<%= link_to catalog_course_path(course), class: "group rounded-xl border border-gray-200 bg-white overflow-hidden hover:border-gray-300 transition flex flex-col" do %>
+  <div class="aspect-[16/9] bg-gradient-to-br from-violet-500 to-violet-700 grid place-items-center">
+    <span class="text-white/90 text-4xl font-extrabold tracking-tight">
+      <%= course.title.split.map(&:first).first(2).join.upcase %>
+    </span>
+  </div>
+  <div class="p-5 flex flex-col flex-1">
+    <div class="flex items-center justify-between gap-2 mb-2 min-h-[20px]">
+      <% if course.category %>
+        <span class="text-xs font-semibold uppercase tracking-wide text-violet-700"><%= course.category.name %></span>
+      <% else %>
+        <span></span>
+      <% end %>
+      <%= course_availability_badge(course) %>
+    </div>
+
+    <h3 class="text-lg font-semibold text-gray-900 group-hover:text-violet-700 leading-snug"><%= course.title %></h3>
+    <% if course.description.present? %>
+      <p class="mt-1.5 text-sm text-gray-600 leading-relaxed line-clamp-2"><%= course.description %></p>
+    <% end %>
+
+    <%# BEWUSSTE DEMO-SCHWACHSTELLE (T3 Performance): Zähler je Karte ohne includes/
+        counter_cache → N+1-Query über alle Karten. NICHT vorab fixen. %>
+    <p class="mt-3 text-xs text-gray-500">
+      <%= pluralize(course.confirmed_count, "Teilnehmer", plural: "Teilnehmer") %>
+      · <%= pluralize(course.sessions.count, "Termin", plural: "Termine") %>
+    </p>
+
+    <div class="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="grid place-items-center w-7 h-7 rounded-full bg-violet-100 text-violet-700 text-xs font-semibold">
+          <%= course.instructor.to_s.split.map(&:first).first(2).join.upcase.presence || "?" %>
+        </span>
+        <span class="text-xs text-gray-500"><%= course.instructor.presence || "Ohne Leitung" %></span>
+      </div>
+      <span class="text-lg font-bold text-gray-900"><%= price_display(course.price_cents) %></span>
+    </div>
+  </div>
+<% end %>

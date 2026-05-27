@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Anmelden · Kursverwaltung</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style> body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; } </style>
+</head>
+<body class="bg-gray-50 text-gray-900 min-h-screen antialiased">
+
+  <div class="min-h-screen grid lg:grid-cols-2">
+
+    <!-- Left brand panel -->
+    <div class="hidden lg:flex flex-col justify-between bg-violet-600 text-white p-12">
+      <a href="marketplace.html" class="flex items-center gap-2">
+        <span class="grid place-items-center w-9 h-9 rounded-lg bg-white text-violet-600 font-bold">K</span>
+        <span class="text-lg font-bold tracking-tight">Kursverwaltung</span>
+      </a>
+      <div class="max-w-sm">
+        <h2 class="text-3xl font-extrabold tracking-tight leading-tight">Lerne die Fähigkeiten, die dich weiterbringen.</h2>
+        <p class="mt-4 text-violet-100 leading-relaxed">Über 5.700 Lernende entwickeln mit expertengeführten Kursen ihre Fähigkeiten weiter — selbstbestimmt im eigenen Tempo.</p>
+        <div class="mt-8 flex items-center gap-3">
+          <div class="flex -space-x-2">
+            <span class="grid place-items-center w-9 h-9 rounded-full bg-violet-300 text-violet-800 text-xs font-semibold border-2 border-violet-600">NF</span>
+            <span class="grid place-items-center w-9 h-9 rounded-full bg-violet-200 text-violet-800 text-xs font-semibold border-2 border-violet-600">KL</span>
+            <span class="grid place-items-center w-9 h-9 rounded-full bg-violet-100 text-violet-800 text-xs font-semibold border-2 border-violet-600">YR</span>
+          </div>
+          <p class="text-sm text-violet-100">„Jeden Euro wert.“ — 4.8 Ø-Bewertung</p>
+        </div>
+      </div>
+      <p class="text-xs text-violet-200">© 2026 Kursverwaltung</p>
+    </div>
+
+    <!-- Right form panel -->
+    <div class="flex items-center justify-center p-6 sm:p-12">
+      <div class="w-full max-w-sm">
+
+        <!-- mobile logo -->
+        <a href="marketplace.html" class="lg:hidden flex items-center gap-2 mb-8">
+          <span class="grid place-items-center w-8 h-8 rounded-lg bg-violet-600 text-white font-bold">K</span>
+          <span class="text-lg font-bold tracking-tight">Kursverwaltung</span>
+        </a>
+
+        <!-- Tab switch -->
+        <div class="grid grid-cols-2 gap-1 rounded-lg bg-gray-100 p-1 mb-8 text-sm font-medium">
+          <button class="rounded-md bg-white px-4 py-2 text-gray-900 shadow-sm">Registrieren</button>
+          <button class="rounded-md px-4 py-2 text-gray-500 hover:text-gray-900">Anmelden</button>
+        </div>
+
+        <!-- ===== Sign up form (active) ===== -->
+        <div>
+          <h1 class="text-2xl font-bold tracking-tight text-gray-900">Konto erstellen</h1>
+          <p class="mt-1 text-sm text-gray-600">Starte kostenlos und entdecke deinen ersten Kurs.</p>
+
+          <form class="mt-6 space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1.5">Name</label>
+              <input type="text" placeholder="Maria Musterfrau" class="w-full rounded-lg border border-gray-200 px-3.5 py-2.5 text-sm outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-100">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1.5">E-Mail</label>
+              <input type="email" placeholder="maria@beispiel.de" class="w-full rounded-lg border border-gray-200 px-3.5 py-2.5 text-sm outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-100">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1.5">Passwort</label>
+              <input type="password" placeholder="Mindestens 8 Zeichen" class="w-full rounded-lg border border-gray-200 px-3.5 py-2.5 text-sm outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-100">
+            </div>
+            <label class="flex items-start gap-2 text-sm text-gray-600">
+              <input type="checkbox" class="mt-0.5 rounded border-gray-300 text-violet-600 focus:ring-violet-500">
+              <span>Ich akzeptiere die <a href="#" class="text-violet-700 font-medium hover:underline">AGB</a> und die <a href="#" class="text-violet-700 font-medium hover:underline">Datenschutzerklärung</a>.</span>
+            </label>
+            <button type="submit" class="w-full rounded-lg bg-violet-600 px-4 py-2.5 text-white font-medium hover:bg-violet-700">Konto erstellen</button>
+          </form>
+
+          <p class="mt-6 text-center text-sm text-gray-600">
+            Schon ein Konto? <a href="#" class="text-violet-700 font-medium hover:underline">Jetzt anmelden</a>
+          </p>
+        </div>
+
+        <!-- ===== Login form (reference, hidden variant) =====
+             Shown here as an inline comment-equivalent so the build has the
+             second screen. In the app this toggles via the tab switch above.
+        -->
+        <div class="mt-12 pt-8 border-t border-dashed border-gray-200">
+          <p class="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-4">Variante: Anmelden</p>
+          <h2 class="text-2xl font-bold tracking-tight text-gray-900">Willkommen zurück</h2>
+          <p class="mt-1 text-sm text-gray-600">Melde dich an, um weiterzulernen.</p>
+          <form class="mt-6 space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1.5">E-Mail</label>
+              <input type="email" placeholder="maria@beispiel.de" class="w-full rounded-lg border border-gray-200 px-3.5 py-2.5 text-sm outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-100">
+            </div>
+            <div>
+              <div class="flex items-center justify-between mb-1.5">
+                <label class="block text-sm font-medium text-gray-700">Passwort</label>
+                <a href="#" class="text-sm text-violet-700 hover:underline">Vergessen?</a>
+              </div>
+              <input type="password" placeholder="••••••••" class="w-full rounded-lg border border-gray-200 px-3.5 py-2.5 text-sm outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-100">
+            </div>
+            <button type="submit" class="w-full rounded-lg bg-violet-600 px-4 py-2.5 text-white font-medium hover:bg-violet-700">Anmelden</button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

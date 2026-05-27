@@ -3,6 +3,7 @@ require "test_helper"
 class CoursesControllerTest < ActionDispatch::IntegrationTest
   setup do
     @course = courses(:claude_code)
+    sign_in_as(users(:admin))
   end
 
   test "index lists the courses" do

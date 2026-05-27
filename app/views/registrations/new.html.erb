@@ -1,0 +1,51 @@
+<% content_for :title, "Registrieren" %>
+
+<%= render "auth/brand_split" do %>
+  <div class="grid grid-cols-2 gap-1 rounded-lg bg-gray-100 p-1 mb-8 text-sm font-medium">
+    <span class="rounded-md bg-white px-4 py-2 text-center text-gray-900 shadow-sm">Registrieren</span>
+    <%= link_to "Anmelden", new_session_path, class: "rounded-md px-4 py-2 text-center text-gray-500 hover:text-gray-900" %>
+  </div>
+
+  <h1 class="text-2xl font-bold tracking-tight text-gray-900">Konto erstellen</h1>
+  <p class="mt-1 text-sm text-gray-600">Starte kostenlos und entdecke deinen ersten Kurs.</p>
+
+  <%= form_with model: @user, url: registration_path, class: "mt-6 space-y-4" do |form| %>
+    <% if @user.errors.any? %>
+      <div class="rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-800">
+        <ul class="list-disc list-inside">
+          <% @user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div>
+      <%= form.label :name, "Name", class: "block text-sm font-medium text-gray-700 mb-1.5" %>
+      <%= form.text_field :name, autofocus: true, placeholder: "Maria Musterfrau",
+            class: "w-full rounded-lg border border-gray-200 px-3.5 py-2.5 text-sm outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-100" %>
+    </div>
+    <div>
+      <%= form.label :email, "E-Mail", class: "block text-sm font-medium text-gray-700 mb-1.5" %>
+      <%= form.email_field :email, autocomplete: "email", placeholder: "maria@beispiel.de",
+            class: "w-full rounded-lg border border-gray-200 px-3.5 py-2.5 text-sm outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-100" %>
+    </div>
+    <div>
+      <%= form.label :password, "Passwort", class: "block text-sm font-medium text-gray-700 mb-1.5" %>
+      <%= form.password_field :password, autocomplete: "new-password", placeholder: "Mindestens 8 Zeichen",
+            class: "w-full rounded-lg border border-gray-200 px-3.5 py-2.5 text-sm outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-100" %>
+    </div>
+    <div>
+      <%= form.label :password_confirmation, "Passwort bestätigen", class: "block text-sm font-medium text-gray-700 mb-1.5" %>
+      <%= form.password_field :password_confirmation, autocomplete: "new-password", placeholder: "Passwort wiederholen",
+            class: "w-full rounded-lg border border-gray-200 px-3.5 py-2.5 text-sm outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-100" %>
+    </div>
+
+    <%= form.submit "Konto erstellen",
+          class: "w-full rounded-lg bg-violet-600 px-4 py-2.5 text-white font-medium hover:bg-violet-700 cursor-pointer" %>
+  <% end %>
+
+  <p class="mt-6 text-center text-sm text-gray-600">
+    Schon ein Konto? <%= link_to "Jetzt anmelden", new_session_path, class: "text-violet-700 font-medium hover:underline" %>
+  </p>
+<% end %>
