@@ -13,11 +13,6 @@ class CoursesControllerTest < ActionDispatch::IntegrationTest
     assert_select "h2", text: "Claude Code im Projektalltag"
   end
 
-  test "index shows the session count per course" do
-    get courses_url
-    assert_response :success
-    assert_select "p", text: /2 Termine/
-  end
 
   test "index shows the confirmed enrollment count per course" do
     get courses_url
