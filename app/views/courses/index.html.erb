@@ -22,6 +22,7 @@
               <%= course.instructor.presence || "Ohne Leitung" %>
               · <%= price_display(course.price_cents) %>
               · <%= pluralize(course.enrollments.confirmed.count, "Anmeldung", plural: "Anmeldungen") %>
+              · <%= pluralize(course.sessions.count, "Termin", plural: "Termine") %>
             </p>
           </div>
           <%= course_status_badge(course) %>

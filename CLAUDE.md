@@ -52,12 +52,6 @@ Geld immer als Integer-`*_cents` (Helper `price_display`; `price_cents = 0` → 
 - **Seeds idempotent** (`destroy_all` vorab, Kinder vor Eltern).
 - **Views folgen `doc/design/ui-style-guide.md`**: violet-Akzent, runde Karten, Pill-Badges, kein Blau.
 
-## Werkzeuge (`.claude/`)
-
-- **`review`-Skill** (Diff/PR gegen die Konventionen), **Software-Factory**
-  (`feature-plan` → `feature-build` → `feature-review`, `.claude/factory/`),
-  **Playwright-MCP** (`.mcp.json`), **Secrets-Hook** (`.claude/settings.json` + `hooks/block-secrets.sh`).
-
 ## Ausführen & prüfen
 
 - Tests: `bin/rails test` (grün). DB: `bin/rails db:reset` (idempotent).

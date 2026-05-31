@@ -39,6 +39,7 @@
         <th class="px-5 py-3 font-semibold">Status</th>
         <th class="px-5 py-3 font-semibold">Preis</th>
         <th class="px-5 py-3 font-semibold">Anmeldungen</th>
+        <th class="px-5 py-3 font-semibold">Termine</th>
         <th class="px-5 py-3 font-semibold text-right">Aktion</th>
       </tr>
     </thead>
@@ -60,6 +61,7 @@
               <span class="text-amber-700">· <%= waitlisted %> Warteliste</span>
             <% end %>
           </td>
+          <td class="px-5 py-4 text-gray-700"><%= course.sessions.count %></td>
           <td class="px-5 py-4 text-right">
             <%= link_to "Bearbeiten", course_path(course), class: "text-violet-700 font-medium hover:underline" %>
           </td>
