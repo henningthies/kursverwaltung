@@ -47,9 +47,6 @@ class CoursesController < ApplicationController
     redirect_to courses_path, notice: "Kurs wurde gelöscht."
   end
 
-  # BEWUSSTE DEMO-SCHWACHSTELLE (T3 Security): exponiert Teilnehmer-PII (Name + E-Mail)
-  # ungefiltert als JSON, ohne Auth, und loggt die PII zusätzlich. NICHT fixen — das
-  # Erkennen im PR-Review und die Redaktion/Filterung sind die Live-Demo.
   def participants
     Rails.logger.info("Teilnehmer-Export für #{@course.title}: #{@course.participants.to_json}")
     render json: @course.participants.select(:id, :name, :email)
