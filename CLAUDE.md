@@ -65,3 +65,25 @@ Geld immer als Integer-`*_cents` (Helper `price_display`; `price_cents = 0` → 
 
 Als Demo-Boden absichtlich drin und kommentiert: **N+1** in Kursübersicht/Katalog/Admin-Dashboard
 (Performance-Demo) und der **PII-Export** `GET /courses/:id/participants` (Security-Demo).
+
+## Werkzeuge
+
+Projekt-Skills, die beim Arbeiten an dieser App zur Verfügung stehen:
+
+- **`kr`** (Konventions-Review) — reviewt geänderten Rails-Code gegen die verbindlichen
+  Konventionen oben (vanilla Rails / 37signals, `STATUSES`/`ROLES` statt `enum`,
+  `params.expect`, deutsche UI-Texte mit englischen Bezeichnern, Minitest + Fixtures).
+  Nutzen für Self-Review/PR-Review vor Commit/Push.
+- **`screenshot`** — erzeugt per Playwright einen Screenshot zu einer URL (z. B.
+  `http://localhost:3000`). Nutzen, um eine Seite visuell festzuhalten.
+
+## Feature-Abschluss (verbindlicher Ablauf)
+
+Am **Ende jedes Features** — bevor es als fertig gilt — immer in dieser Reihenfolge:
+
+1. **Tests laufen lassen:** `bin/rails test` muss grün sein (neue Logik/Actions haben Tests).
+2. **Review:** das Feature mit **`kr`** gegen die Projekt-Konventionen reviewen.
+3. **Playwright-Validierung:** das Feature im laufenden Server (`bin/dev`) mit Playwright
+   ansteuern und das erwartete Verhalten verifizieren.
+4. **Screenshot für den Pull Request:** mit **`screenshot`** ein Bild des fertigen Features
+   aufnehmen und in die PR-Beschreibung aufnehmen.
