@@ -12,6 +12,9 @@ class Course < ApplicationRecord
   validates :price_cents, numericality: { greater_than_or_equal_to: 0, only_integer: true }
 
   scope :ordered, -> { order(:title) }
+  # Preis-Sortierung mit Titel als stabilem Zweit-Kriterium bei Preisgleichheit.
+  scope :by_price_asc, -> { order(:price_cents, :title) }
+  scope :by_price_desc, -> { order(price_cents: :desc).order(:title) }
   # Öffentlich sichtbar im Marketplace sind nur aktive Kurse.
   scope :published, -> { where(status: "active") }
   scope :in_category, ->(category) { category ? where(category: category) : all }

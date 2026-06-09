@@ -40,4 +40,40 @@ class CatalogControllerTest < ActionDispatch::IntegrationTest
     assert_select "a", text: "Alle"
     assert_select "a", text: "KI & Automation"
   end
+
+  test "sort=price_asc orders active courses cheapest first" do
+    get root_url(sort: "price_asc")
+    assert_response :success
+    # Einführung in KI (0) < Notion Mastery (3900) < Prompt Engineering (4900) < Claude Code (12900)
+    positions = [ "Einführung in KI", "Notion Mastery", "Prompt Engineering meistern", "Claude Code im Projektalltag" ]
+                  .map { |title| response.body.index(title) }
+    assert_equal positions, positions.sort
+  end
+
+  test "sort=price_desc orders active courses most expensive first" do
+    get root_url(sort: "price_desc")
+    assert_response :success
+    assert response.body.index("Claude Code im Projektalltag") < response.body.index("Einführung in KI")
+  end
+
+  test "unknown sort falls back to title order" do
+    get root_url(sort: "gibt-es-nicht")
+    assert_response :success
+    # Titel-Sortierung: Claude Code (C) vor Notion Mastery (N)
+    assert response.body.index("Claude Code im Projektalltag") < response.body.index("Notion Mastery")
+  end
+
+  test "sort combines with the category filter" do
+    get root_url(category: categories(:ki).slug, sort: "price_asc")
+    assert_response :success
+    assert_select "h3", text: "Claude Code im Projektalltag", count: 0   # andere Kategorie
+    # Innerhalb KI: Einführung in KI (0) vor Prompt Engineering (4900)
+    assert response.body.index("Einführung in KI") < response.body.index("Prompt Engineering meistern")
+  end
+
+  test "category pills keep the active sort selection" do
+    get root_url(sort: "price_asc")
+    assert_response :success
+    assert_select "a[href=?]", root_path(category: categories(:ki).slug, sort: "price_asc")
+  end
 end

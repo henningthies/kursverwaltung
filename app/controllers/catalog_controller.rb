@@ -1,17 +1,22 @@
-# Öffentlicher Marketplace (lernenden-zugewandt), getrennt vom Admin-CoursesController.
+# Public marketplace (learner-facing), separate from the admin CoursesController.
 class CatalogController < ApplicationController
   allow_unauthenticated_access only: %i[index show]
   layout "marketplace"
 
+  # Whitelist of allowed sort values → scope; guards against arbitrary param input.
+  SORTS = { "title" => :ordered, "price_asc" => :by_price_asc, "price_desc" => :by_price_desc }.freeze
+  private_constant :SORTS
+
   def index
     @categories = Category.ordered
     @category = Category.find_by(slug: params[:category])
-    # Öffentlich nur aktive Kurse; Filter über ?category=<slug>.
-    @courses = Course.published.in_category(@category).ordered
+    @sort = SORTS.key?(params[:sort]) ? params[:sort] : "title"
+    # Public listing shows only active courses; filter via ?category=<slug>, sort via ?sort=.
+    @courses = Course.published.in_category(@category).public_send(SORTS[@sort])
   end
 
   def show
-    # Öffentlich sichtbar sind nur aktive Kurse; alles andere ist hier nicht auffindbar.
+    # Only active courses are publicly visible; anything else is not findable here.
     @course = Course.published.find(params[:id])
     @sessions = @course.sessions.ordered
   end
