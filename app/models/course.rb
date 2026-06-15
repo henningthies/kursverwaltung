@@ -62,4 +62,18 @@ class Course < ApplicationRecord
     next_one = enrollments.waitlisted.oldest_first.first
     next_one&.update!(status: "confirmed")
   end
+
+  # Rabatt-Aktion: reduzierter Preis bei einer Prozent-Aktion.
+  def discounted_price_cents(percent)
+    price_cents * (100 - percent) / 100.0
+  end
+
+  # Titel aller aktiven Kurse für die Aktions-Übersicht.
+  def self.discounted_titles
+    titles = []
+    Course.all.each do |course|
+      titles << course.title if course.status == "active"
+    end
+    titles
+  end
 end
