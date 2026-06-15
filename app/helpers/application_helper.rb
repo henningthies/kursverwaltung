@@ -50,8 +50,9 @@ module ApplicationHelper
   def price_display(price_cents)
     return "Gratis" if price_cents.to_i.zero?
 
-    euros = price_cents.to_i / 100.0
-    format("%.2f €", euros).sub(".", ",")
+    euros, cents = price_cents.to_i.divmod(100)
+    grouped_euros = euros.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1.').reverse
+    format("%s,%02d €", grouped_euros, cents)
   end
 
   # Verfügbarkeits-Badge für Kurs-Karten/Detail (Gratis / Fast ausgebucht / Ausgebucht).
