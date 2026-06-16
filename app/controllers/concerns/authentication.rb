@@ -25,7 +25,7 @@ module Authentication
     def require_login
       return if logged_in?
 
-      session[:return_to_after_login] = request.url if request.get?
+      session[:return_to_after_login] = request.url if request.get? || request.head?
       redirect_to new_session_path, alert: "Bitte melde dich an."
     end
 
