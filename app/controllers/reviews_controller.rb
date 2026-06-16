@@ -8,6 +8,8 @@ class ReviewsController < ApplicationController
     @review = @course.reviews.build(review_params)
     @review.user = current_user
 
+    # Bei Erfolg und Fehler gleichermaßen auf die öffentliche Detailseite weiterleiten,
+    # damit der Lernende die neue Bewertung sofort in der Liste sieht.
     if @review.save
       redirect_to catalog_course_path(@course), notice: "Danke für deine Bewertung!"
     else

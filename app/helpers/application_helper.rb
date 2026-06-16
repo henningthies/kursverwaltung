@@ -68,9 +68,6 @@ module ApplicationHelper
     end
   end
 
-  # Sterne-Anzeige für Kurs-Bewertungen: amber-400 gefüllte Sterne + optionale Anzahl.
-  # rating: Integer 1-5 oder nil
-  # count: optional, zeigt "N Bewertungen" wenn gesetzt
   def star_rating(rating, count: nil)
     return "" unless rating.present?
 
