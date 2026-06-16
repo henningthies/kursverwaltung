@@ -11,3 +11,9 @@ learner:
   email: lena@example.com
   password_digest: <%= password_digest %>
   role: learner
+
+learner2:
+  name: Karim Lang
+  email: karim@example.com
+  password_digest: <%= password_digest %>
+  role: learner

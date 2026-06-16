@@ -1,0 +1,26 @@
+# Öffentliche Bewertung (learner → claude_code, sichtbar, nicht anonym)
+lena_claude_code:
+  user: learner
+  course: claude_code
+  rating: 5
+  comment: "Jeden Euro wert — endlich verstehe ich, wie ich KI im Alltag einsetze."
+  anonymous: false
+  visible: true
+
+# Öffentlich, aber anonym (learner2 → claude_code)
+karim_claude_code_anon:
+  user: learner2
+  course: claude_code
+  rating: 4
+  comment: "Klar strukturiert und praxisnah. Die Beispiele kann ich sofort nutzen."
+  anonymous: true
+  visible: true
+
+# Private Bewertung — nur für Admins sichtbar (learner → prompt_engineering)
+lena_prompt_private:
+  user: learner
+  course: prompt_engineering
+  rating: 3
+  comment: "Tempo im letzten Drittel etwas hoch — sonst stark."
+  anonymous: false
+  visible: false

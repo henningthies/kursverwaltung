@@ -40,6 +40,7 @@ Rails.application.routes.draw do
   resources :courses do
     resources :sessions,     only: %i[create destroy]
     resources :enrollments,  only: %i[create destroy]
+    resources :reviews,      only: %i[create destroy]
     member do
       # Bewusste Demo-Schwachstelle (T3 Security): PII-Export, siehe CoursesController#participants.
       get :participants

@@ -26,6 +26,16 @@
       · <%= pluralize(course.sessions.count, "Termin", plural: "Termine") %>
     </p>
 
+    <%# Sterne-Rating aus vorab berechneten Hashes (kein N+1). %>
+    <% avg   = @ratings_by_course&.dig(course.id) %>
+    <% count = @counts_by_course&.dig(course.id) %>
+    <% if avg %>
+      <p class="mt-1.5 flex items-center gap-1 text-xs text-gray-500">
+        <%= star_rating(avg, count: count, size: "w-3.5 h-3.5") %>
+        <span><%= count %> Bewertungen</span>
+      </p>
+    <% end %>
+
     <div class="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
       <div class="flex items-center gap-2">
         <span class="grid place-items-center w-7 h-7 rounded-full bg-violet-100 text-violet-700 text-xs font-semibold">

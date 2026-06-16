@@ -31,6 +31,12 @@
             <%= pluralize(@sessions.size, "Termin", plural: "Termine") %>
           </span>
           <span class="inline-flex items-center gap-1.5"><%= @course.instructor.presence || "Ohne Leitung" %></span>
+          <%# ⭐-Durchschnitt + Anzahl — nur wenn sichtbare Bewertungen vorhanden %>
+          <% if @course.average_rating %>
+            <span class="inline-flex items-center gap-1.5">
+              <%= star_rating(@course.average_rating, count: @course.reviews_count, size: "w-5 h-5") %>
+            </span>
+          <% end %>
         </div>
       </div>
 
@@ -79,7 +85,19 @@
         </ul>
       </section>
 
-      <%= render "catalog/testimonials" %>
+      <%# ===== Bewertungs-Sektion (ersetzt hartkodierte Testimonials) ===== %>
+      <section>
+        <div class="flex items-center justify-between mb-5">
+          <h2 class="text-xl font-bold tracking-tight text-gray-900">Was Teilnehmer sagen</h2>
+          <% if logged_in? && !@course.reviewed_by?(current_user) %>
+            <%= render "catalog/review_form", course: @course %>
+          <% elsif logged_in? && @course.reviewed_by?(current_user) %>
+            <span class="text-sm text-gray-500">Du hast diesen Kurs bereits bewertet</span>
+          <% end %>
+        </div>
+        <%= render "catalog/reviews", reviews: @reviews %>
+      </section>
+
       <%= render "catalog/faq" %>
     </div>
 
