@@ -5,6 +5,7 @@ class User < ApplicationRecord
   has_many :participants, dependent: :nullify
   has_many :enrollments, through: :participants
   has_many :orders, dependent: :destroy
+  has_many :reviews, dependent: :destroy
 
   normalizes :email, with: ->(e) { e.strip.downcase }
 

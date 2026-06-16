@@ -15,6 +15,24 @@
     </div>
 
     <h3 class="text-lg font-semibold text-gray-900 group-hover:text-violet-700 leading-snug"><%= course.title %></h3>
+
+    <%# Star rating für sichtbare Bewertungen (nur wenn es welche gibt) =%>
+    <% if course.reviews_count > 0 %>
+      <div class="mt-1.5 flex items-center gap-1.5">
+        <div class="flex items-center gap-0.5 text-amber-400">
+          <% course.average_rating.to_i.times do %>
+            <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.05 2.93c.3-.92 1.6-.92 1.9 0l1.36 4.18a1 1 0 00.95.69h4.4c.97 0 1.37 1.24.59 1.81l-3.56 2.59a1 1 0 00-.36 1.12l1.36 4.18c.3.92-.76 1.69-1.54 1.12l-3.56-2.59a1 1 0 00-1.18 0L6.25 18.6c-.78.57-1.84-.2-1.54-1.12l1.36-4.18a1 1 0 00-.36-1.12L2.15 9.6c-.78-.57-.38-1.81.59-1.81h4.4a1 1 0 00.95-.69z"/></svg>
+          <% end %>
+          <% (5 - course.average_rating.to_i).times do %>
+            <svg class="w-3.5 h-3.5 text-gray-300" fill="currentColor" viewBox="0 0 20 20"><path d="M9.05 2.93c.3-.92 1.6-.92 1.9 0l1.36 4.18a1 1 0 00.95.69h4.4c.97 0 1.37 1.24.59 1.81l-3.56 2.59a1 1 0 00-.36 1.12l1.36 4.18c.3.92-.76 1.69-1.54 1.12l-3.56-2.59a1 1 0 00-1.18 0L6.25 18.6c-.78.57-1.84-.2-1.54-1.12l1.36-4.18a1 1 0 00-.36-1.12L2.15 9.6c-.78-.57-.38-1.81.59-1.81h4.4a1 1 0 00.95-.69z"/></svg>
+          <% end %>
+        </div>
+        <span class="text-xs text-gray-500">
+          <%= link_to "#{course.average_rating.round(1)} · #{pluralize(course.reviews_count, 'Bewertung', plural: 'Bewertungen')}", catalog_course_path(course), class: "hover:underline" %>
+        </span>
+      </div>
+    <% end %>
+
     <% if course.description.present? %>
       <p class="mt-1.5 text-sm text-gray-600 leading-relaxed line-clamp-2"><%= course.description %></p>
     <% end %>

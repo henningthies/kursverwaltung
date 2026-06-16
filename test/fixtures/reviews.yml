@@ -1,0 +1,28 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+# Fixtures für course-reviews Feature
+# - claude_code: 2 visible (learner=5 + learner2=4, average 4.5), 0 private
+# - prompt_engineering: 0 visible, 1 private (admin=3)
+
+public:
+  user: learner
+  course: claude_code
+  rating: 5
+  comment: Jeden Euro wert — endlich verstehe ich, wie ich KI im Alltag einsetze.
+  anonymous: false
+  visible: true
+
+anonymous:
+  user: learner2
+  course: claude_code
+  rating: 4
+  comment: Klar strukturiert und praxisnah. Die Beispiele kann ich sofort nutzen.
+  anonymous: true
+  visible: true
+
+private:
+  user: admin
+  course: prompt_engineering
+  rating: 3
+  comment: Tempo im letzten Drittel etwas hoch — sonst stark.
+  anonymous: false
+  visible: false

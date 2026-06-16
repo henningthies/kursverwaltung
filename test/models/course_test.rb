@@ -169,4 +169,55 @@ class CourseTest < ActiveSupport::TestCase
     assert_equal "confirmed", second.status
     assert_equal 1, course.confirmed_count
   end
+
+  # --- Reviews ---
+
+  test "has_many reviews with dependent destroy" do
+    course = courses(:claude_code)
+    assert_equal 2, course.reviews.count
+    assert_difference "Review.count", -2 do
+      course.destroy
+    end
+  end
+
+  test "average_rating calculates average of visible reviews" do
+    course = courses(:claude_code)
+    # learner_public (5) + learner2_anonymous (4) = (5+4)/2 = 4.5
+    assert_equal 4.5, course.average_rating
+  end
+
+  test "average_rating excludes invisible reviews" do
+    course = courses(:prompt_engineering)
+    # learner_private (3, visible: false) — should not count
+    assert_nil course.average_rating # no visible reviews
+  end
+
+  test "average_rating returns nil when no visible reviews" do
+    course = courses(:rails_performance)
+    assert_nil course.average_rating
+  end
+
+  test "reviews_count counts only visible reviews" do
+    course = courses(:claude_code)
+    # learner_public + learner2_anonymous = 2 visible
+    assert_equal 2, course.reviews_count
+  end
+
+  test "reviews_count excludes invisible reviews" do
+    course = courses(:prompt_engineering)
+    # learner_private is invisible
+    assert_equal 0, course.reviews_count
+  end
+
+  test "reviewed_by? returns true if user has reviewed the course" do
+    course = courses(:claude_code)
+    assert course.reviewed_by?(users(:learner))
+    assert course.reviewed_by?(users(:learner2))
+    assert_not course.reviewed_by?(users(:admin))
+  end
+
+  test "reviewed_by? returns false for nil user" do
+    course = courses(:claude_code)
+    assert_not course.reviewed_by?(nil)
+  end
 end
