@@ -68,7 +68,12 @@ Als Demo-Boden absichtlich drin und kommentiert: **N+1** in Kursübersicht/Katal
 
 ## Werkzeuge
 
-Projekt-Skills, die beim Arbeiten an dieser App zur Verfügung stehen:
+Die Haus-Skills liegen **nicht mehr im Projekt** (`.claude/skills/`), sondern kommen über den
+Plugin-Marketplace `team-skills` (Plugin `kursverwaltung-skills`, Repo
+`henningthies/kursverwaltung-marketplace`). Er ist in `.claude/settings.json` via
+`extraKnownMarketplaces` + `enabledPlugins` aktiviert und wird beim Vertrauen des Repos
+automatisch installiert. Skills/Agents heißen dort genamespaced (`kursverwaltung-skills:<name>`).
+Enthalten sind u. a.:
 
 - **`kr`** (Konventions-Review) — reviewt geänderten Rails-Code gegen die verbindlichen
   Konventionen oben (vanilla Rails / 37signals, `STATUSES`/`ROLES` statt `enum`,
@@ -76,6 +81,8 @@ Projekt-Skills, die beim Arbeiten an dieser App zur Verfügung stehen:
   Nutzen für Self-Review/PR-Review vor Commit/Push.
 - **`screenshot`** — erzeugt per Playwright einen Screenshot zu einer URL (z. B.
   `http://localhost:3000`). Nutzen, um eine Seite visuell festzuhalten.
+- **Feature-Factory** — `feature-plan` → `feature-build` → `feature-review` (+ Agents
+  `feature-builder`/`feature-reviewer`), `grill-me`.
 
 ## Feature-Abschluss (verbindlicher Ablauf)
 

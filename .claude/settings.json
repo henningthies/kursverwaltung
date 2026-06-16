@@ -1,4 +1,15 @@
 {
+  "extraKnownMarketplaces": {
+    "team-skills": {
+      "source": {
+        "source": "github",
+        "repo": "henningthies/kursverwaltung-marketplace"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "kursverwaltung-skills@team-skills": true
+  },
   "permissions": {
     "deny": [
       "Bash(rm *)"
