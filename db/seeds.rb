@@ -1,5 +1,6 @@
 # Idempotent: vor dem Säen alles entfernen, damit der Demo-Startzustand reproduzierbar ist.
 # Reihenfolge: Kinder vor Eltern. Order.destroy_all räumt OrderItems via dependent: :destroy.
+Review.destroy_all
 Order.destroy_all
 Enrollment.destroy_all
 Participant.destroy_all
@@ -139,6 +140,37 @@ paid_order.stripe_session_id = "cs_test_seed_paid"
 paid_order.save!
 paid_order.mark_paid!
 
+# Demo-Bewertungen für den Claude-Code-Kurs (sichtbar + anonym + privat).
+learner2 = User.create!(name: "Karim Lang", email: "karim@example.com",
+                        password: "geheim123", role: "learner")
+
+Review.create!([
+  {
+    user: learner,
+    course: claude,
+    rating: 5,
+    comment: "Jeden Euro wert — endlich verstehe ich, wie ich KI im Alltag einsetze.",
+    anonymous: false,
+    visible: true
+  },
+  {
+    user: learner2,
+    course: claude,
+    rating: 4,
+    comment: "Klar strukturiert und praxisnah. Die Beispiele kann ich sofort nutzen.",
+    anonymous: true,
+    visible: true
+  },
+  {
+    user: admin,
+    course: claude,
+    rating: 3,
+    comment: "Tempo im letzten Drittel etwas hoch — sonst stark.",
+    anonymous: false,
+    visible: false
+  }
+])
+
 puts "Seeds: #{User.count} User, #{Category.count} Kategorien, #{Course.count} Kurse, " \
      "#{Session.count} Termine, #{Participant.count} Teilnehmer, #{Enrollment.count} Anmeldungen, " \
-     "#{Order.count} Bestellungen."
+     "#{Order.count} Bestellungen, #{Review.count} Bewertungen."

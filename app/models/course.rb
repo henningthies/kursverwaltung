@@ -2,9 +2,10 @@ class Course < ApplicationRecord
   STATUSES = %w[draft active done].freeze
 
   belongs_to :category, optional: true
-  has_many :sessions, dependent: :destroy
-  has_many :enrollments, dependent: :destroy
+  has_many :sessions,     dependent: :destroy
+  has_many :enrollments,  dependent: :destroy
   has_many :participants, through: :enrollments
+  has_many :reviews,      dependent: :destroy
 
   validates :title, presence: true
   validates :status, inclusion: { in: STATUSES }
@@ -61,5 +62,19 @@ class Course < ApplicationRecord
   def promote_next_waitlisted
     next_one = enrollments.waitlisted.oldest_first.first
     next_one&.update!(status: "confirmed")
+  end
+
+  # Nur sichtbare (visible: true) Bewertungen zählen für den öffentlichen Durchschnitt.
+  def average_rating
+    reviews.visible.average(:rating)
+  end
+
+  def reviews_count
+    reviews.visible.count
+  end
+
+  # Gibt true zurück, wenn der User diesen Kurs bereits bewertet hat.
+  def reviewed_by?(user)
+    user.present? && reviews.exists?(user_id: user.id)
   end
 end

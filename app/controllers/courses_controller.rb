@@ -15,6 +15,8 @@ class CoursesController < ApplicationController
     @session = @course.sessions.new
     @confirmed_enrollments  = @course.enrollments.confirmed.oldest_first.includes(:participant)
     @waitlisted_enrollments = @course.enrollments.waitlisted.oldest_first.includes(:participant)
+    # Admin sieht alle Bewertungen (öffentlich + privat), mit Klarnamen.
+    @all_reviews = @course.reviews.includes(:user).order(created_at: :desc)
   end
 
   def new
