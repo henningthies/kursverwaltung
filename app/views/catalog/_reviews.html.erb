@@ -1,0 +1,94 @@
+<%# Echte Kurs-Bewertungen ersetzen die hartkodiert-Testimonials (ADR 0007). %>
+<section>
+  <div class="flex items-center justify-between mb-5">
+    <div>
+      <h2 class="text-xl font-bold tracking-tight text-gray-900">Was Teilnehmer sagen</h2>
+      <% if @course.reviews_count > 0 %>
+        <div class="mt-2 flex items-center gap-2 text-sm text-gray-600">
+          <span class="text-amber-400">★</span>
+          <span class="font-semibold text-gray-900"><%= @course.average_rating.round(1) %></span>
+          <span class="text-gray-400">·</span>
+          <span><%= pluralize(@course.reviews_count, "Bewertung") %></span>
+        </div>
+      <% end %>
+    </div>
+    <% if logged_in? %>
+      <% if @course.reviewed_by?(current_user) %>
+        <span class="text-sm text-gray-500">Du hast diesen Kurs bereits bewertet</span>
+      <% else %>
+        <button onclick="document.getElementById('review-modal').showModal()"
+                class="rounded-lg bg-violet-600 px-4 py-2 text-sm text-white font-medium hover:bg-violet-700">
+          Kurs bewerten
+        </button>
+      <% end %>
+    <% end %>
+  </div>
+
+  <%# Leerzustand oder Liste %>
+  <% if @course.reviews_count.zero? %>
+    <div class="rounded-xl border border-dashed border-gray-300 bg-white p-8 text-center text-sm text-gray-500">
+      Noch keine Bewertungen — sei die:der Erste.
+    </div>
+  <% else %>
+    <div class="space-y-4">
+      <% @course.reviews.visible.each do |review| %>
+        <figure class="rounded-xl border border-gray-200 bg-white p-5">
+          <div class="flex items-center justify-between mb-2">
+            <figcaption class="text-sm font-semibold text-gray-900"><%= review.display_name %></figcaption>
+            <div class="flex items-center gap-0.5 text-amber-400">
+              <% review.rating.times do %>
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.05 2.93c.3-.92 1.6-.92 1.9 0l1.36 4.18a1 1 0 00.95.69h4.4c.97 0 1.37 1.24.59 1.81l-3.56 2.59a1 1 0 00-.36 1.12l1.36 4.18c.3.92-.76 1.69-1.54 1.12l-3.56-2.59a1 1 0 00-1.18 0L6.25 18.6c-.78.57-1.84-.2-1.54-1.12l1.36-4.18a1 1 0 00-.36-1.12L2.15 9.6c-.78-.57-.38-1.81.59-1.81h4.4a1 1 0 00.95-.69z"/></svg>
+              <% end %>
+              <% (5 - review.rating).times do %>
+                <svg class="w-4 h-4 text-gray-300" fill="currentColor" viewBox="0 0 20 20"><path d="M9.05 2.93c.3-.92 1.6-.92 1.9 0l1.36 4.18a1 1 0 00.95.69h4.4c.97 0 1.37 1.24.59 1.81l-3.56 2.59a1 1 0 00-.36 1.12l1.36 4.18c.3.92-.76 1.69-1.54 1.12l-3.56-2.59a1 1 0 00-1.18 0L6.25 18.6c-.78.57-1.84-.2-1.54-1.12l1.36-4.18a1 1 0 00-.36-1.12L2.15 9.6c-.78-.57-.38-1.81.59-1.81h4.4a1 1 0 00.95-.69z"/></svg>
+              <% end %>
+            </div>
+          </div>
+          <% if review.comment.present? %>
+            <blockquote class="text-sm text-gray-700">„<%= review.comment %>"</blockquote>
+          <% end %>
+        </figure>
+      <% end %>
+    </div>
+  <% end %>
+</section>
+
+<%# Modal für Bewertungsform (Stimulus + Form POST) %>
+<% if logged_in? && !@course.reviewed_by?(current_user) %>
+  <dialog id="review-modal" class="rounded-2xl p-0 w-full max-w-md backdrop:bg-gray-900/40">
+    <div class="p-6">
+      <h3 class="text-lg font-bold tracking-tight text-gray-900">End-of-Term Review</h3>
+      <p class="mt-1 text-sm text-gray-600">Vielen Dank für deine Teilnahme! Bitte bewerte diesen Kurs.</p>
+
+      <%= form_with model: [@course, Review.new], local: true, class: "mt-5" do |f| %>
+        <%# Sterne-Eingabe (Stimulus rating-controller) %>
+        <div class="flex items-center justify-between w-full text-4xl text-gray-300 mb-5" data-controller="rating">
+          <% (1..5).each do |i| %>
+            <button type="button" class="hover:text-amber-400 transition" data-rating="<%= i %>" data-action="click->rating#set">★</button>
+          <% end %>
+          <%= f.hidden_field :rating, data: { "rating-target": "field" } %>
+        </div>
+
+        <%= f.text_area :comment, rows: 3, placeholder: "Deine ehrliche Meinung mit anderen Teilnehmern (optional)", class: "w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-700 placeholder-gray-400 focus:border-violet-600 focus:ring-violet-600" %>
+
+        <div class="mt-4 space-y-2.5">
+          <label class="flex items-center gap-2 text-sm text-gray-700">
+            <%= f.check_box :anonymous, { class: "rounded border-gray-300 text-violet-600 focus:ring-violet-600" } %>
+            Ich möchte anonym bewerten
+          </label>
+          <label class="flex items-center gap-2 text-sm text-gray-700">
+            <%= f.check_box :visible, { checked: true, class: "rounded border-gray-300 text-violet-600 focus:ring-violet-600" } %>
+            Meine Bewertung öffentlich anzeigen
+          </label>
+        </div>
+
+        <div class="mt-6 flex items-center gap-3">
+          <%= f.submit "Bewertung absenden", class: "rounded-lg bg-violet-600 px-4 py-2 text-sm text-white font-medium hover:bg-violet-700" %>
+          <button type="button" class="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm text-gray-700 hover:bg-gray-50" onclick="document.getElementById('review-modal').close()">
+            Vielleicht später
+          </button>
+        </div>
+      <% end %>
+    </div>
+  </dialog>
+<% end %>

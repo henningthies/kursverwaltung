@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_26_223912) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_16_083424) do
   create_table "categories", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "name", null: false
@@ -76,6 +76,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_26_223912) do
     t.index ["user_id"], name: "index_participants_on_user_id"
   end
 
+  create_table "reviews", force: :cascade do |t|
+    t.boolean "anonymous", default: false, null: false
+    t.text "comment"
+    t.integer "course_id", null: false
+    t.datetime "created_at", null: false
+    t.integer "rating", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.boolean "visible", default: true, null: false
+    t.index ["course_id", "visible"], name: "index_reviews_on_course_id_and_visible"
+    t.index ["course_id"], name: "index_reviews_on_course_id"
+    t.index ["user_id", "course_id"], name: "index_reviews_on_user_id_and_course_id", unique: true
+    t.index ["user_id"], name: "index_reviews_on_user_id"
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.integer "course_id", null: false
     t.datetime "created_at", null: false
@@ -102,5 +117,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_26_223912) do
   add_foreign_key "order_items", "orders"
   add_foreign_key "orders", "users"
   add_foreign_key "participants", "users"
+  add_foreign_key "reviews", "courses"
+  add_foreign_key "reviews", "users"
   add_foreign_key "sessions", "courses"
 end

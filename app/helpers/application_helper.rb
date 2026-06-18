@@ -67,4 +67,31 @@ module ApplicationHelper
         class: "inline-flex items-center gap-1 rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800"
     end
   end
+
+  def star_rating(rating, count: nil)
+    return "" unless rating.present?
+
+    rounded_rating = rating.round(1)
+    full_stars = rounded_rating.to_i
+    has_half = (rounded_rating % 1) >= 0.5
+    empty_stars = 5 - full_stars - (has_half ? 1 : 0)
+
+    stars_html = ""
+    full_stars.times { stars_html += '<svg class="w-5 h-5 fill-amber-400" viewBox="0 0 20 20"><path d="M9.05 2.93c.3-.92 1.6-.92 1.9 0l1.36 4.18a1 1 0 00.95.69h4.4c.97 0 1.37 1.24.59 1.81l-3.56 2.59a1 1 0 00-.36 1.12l1.36 4.18c.3.92-.76 1.69-1.54 1.12l-3.56-2.59a1 1 0 00-1.18 0L6.25 18.6c-.78.57-1.84-.2-1.54-1.12l1.36-4.18a1 1 0 00-.36-1.12L2.15 9.6c-.78-.57-.38-1.81.59-1.81h4.4a1 1 0 00.95-.69z"/></svg>' }
+    stars_html += '<svg class="w-5 h-5 fill-gray-300" viewBox="0 0 20 20"><path d="M9.05 2.93c.3-.92 1.6-.92 1.9 0l1.36 4.18a1 1 0 00.95.69h4.4c.97 0 1.37 1.24.59 1.81l-3.56 2.59a1 1 0 00-.36 1.12l1.36 4.18c.3.92-.76 1.69-1.54 1.12l-3.56-2.59a1 1 0 00-1.18 0L6.25 18.6c-.78.57-1.84-.2-1.54-1.12l1.36-4.18a1 1 0 00-.36-1.12L2.15 9.6c-.78-.57-.38-1.81.59-1.81h4.4a1 1 0 00.95-.69z"/></svg>' if has_half
+    empty_stars.times { stars_html += '<svg class="w-5 h-5 fill-gray-300" viewBox="0 0 20 20"><path d="M9.05 2.93c.3-.92 1.6-.92 1.9 0l1.36 4.18a1 1 0 00.95.69h4.4c.97 0 1.37 1.24.59 1.81l-3.56 2.59a1 1 0 00-.36 1.12l1.36 4.18c.3.92-.76 1.69-1.54 1.12l-3.56-2.59a1 1 0 00-1.18 0L6.25 18.6c-.78.57-1.84-.2-1.54-1.12l1.36-4.18a1 1 0 00-.36-1.12L2.15 9.6c-.78-.57-.38-1.81.59-1.81h4.4a1 1 0 00.95-.69z"/></svg>' }
+
+    html = tag.span class: "inline-flex items-center gap-0.5 text-amber-400" do
+      stars_html.html_safe
+    end
+
+    if count.present?
+      tag.span class: "inline-flex items-center gap-1.5" do
+        html + tag.span(class: "font-semibold text-gray-900") { "#{rounded_rating}" } +
+          tag.span(class: "text-gray-500") { "· #{count} #{count == 1 ? 'Bewertung' : 'Bewertungen'}" }
+      end
+    else
+      html
+    end
+  end
 end

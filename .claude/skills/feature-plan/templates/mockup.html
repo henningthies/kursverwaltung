@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><!-- Screen-Titel --> · Kursverwaltung</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-900 min-h-screen antialiased">
+
+  <!-- ===== Header =====
+       Lernenden-facing: aus marketplace.html übernehmen.
+       Admin-facing: aus admin-dashboard.html übernehmen. -->
+  <header class="sticky top-0 z-20 bg-white/90 backdrop-blur border-b border-gray-200">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="marketplace.html" class="flex items-center gap-2">
+        <span class="grid place-items-center w-8 h-8 rounded-lg bg-violet-600 text-white font-bold">K</span>
+        <span class="text-lg font-bold tracking-tight">Kursverwaltung</span>
+      </a>
+      <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-gray-600">
+        <a href="marketplace.html" class="text-violet-700">Kurse</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== Inhalt =====
+       Hier den Feature-Screen aufbauen. Stil-Tokens (verbindlich, doc/design/ui-style-guide.md):
+       · Akzent  violet-600  (Hover violet-700) — KEIN Blau
+       · Karten  rounded-xl, border-gray-200, weißer Grund auf bg-gray-50
+       · Badges  Pills: rounded-full px-3 py-1 text-xs font-medium
+       · großzügiger Weißraum, deutsche Texte
+       Komponenten-Vokabular aus den bestehenden mockups/*.html wiederverwenden. -->
+  <main class="max-w-6xl mx-auto px-6 py-12">
+
+    <h1 class="text-3xl font-extrabold tracking-tight">Screen-Titel</h1>
+    <p class="mt-2 text-gray-600">Kurzbeschreibung des Screens.</p>
+
+    <!-- Beispiel-Karte -->
+    <section class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <article class="rounded-xl border border-gray-200 bg-white p-6">
+        <span class="inline-flex rounded-full bg-violet-100 px-3 py-1 text-xs font-medium text-violet-700">Pill-Badge</span>
+        <h2 class="mt-3 text-lg font-semibold">Karten-Titel</h2>
+        <p class="mt-1 text-sm text-gray-600">Karten-Text.</p>
+        <a href="#" class="mt-4 inline-block rounded-lg bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700">Aktion</a>
+      </article>
+    </section>
+
+  </main>
+
+</body>
+</html>
